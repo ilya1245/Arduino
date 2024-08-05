@@ -12,6 +12,7 @@ boolean isPrintKeyCode = true;
 boolean isBlinkMode = false;
 boolean isOn = false;
 boolean isSwitchMode = false;
+byte ledModeIrCommand = 0;
 
 void smartDelay(long pause, int delayTimeStep = 50) {
   for (int i = 0; i < pause / delayTimeStep; i++) {

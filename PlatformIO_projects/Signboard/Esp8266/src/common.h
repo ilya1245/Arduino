@@ -22,6 +22,7 @@ extern boolean isPrintKeyCode;
 extern boolean isOn;
 extern boolean isBlinkMode;
 extern boolean isSwitchMode;
+extern byte ledModeIrCommand;
 
 extern void smartDelay(long pause, int delayTimeStep);
 extern void smartDelay(long pause);

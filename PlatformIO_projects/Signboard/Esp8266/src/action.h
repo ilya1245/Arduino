@@ -11,3 +11,4 @@ extern void waveLeftToRight();
 extern void waveRightToLeft();
 extern void waveLeftToLeft();
 extern void waveRightToRight();
+extern void selectAction(byte irCommand);

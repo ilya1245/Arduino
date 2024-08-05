@@ -42,5 +42,11 @@ void tuneTimeInterval(int tStep) {
   isSwitchMode = true;
   printf("timeInterval = %d\n", timeInterval);
   smartDelay(200);
-  blinkAll(timeInterval * 2, timeInterval);
+  // blinkAll(timeInterval * 2, timeInterval);
+  selectAction(23);
+
+  // for (int i = 0; i < NUMBER_OF_LETTERS; i++) {
+  //   blinkers[i].setPeriod(timeInterval * 2);
+  //   blinkers[i].setOnTime(timeInterval);
+  // } 
 }

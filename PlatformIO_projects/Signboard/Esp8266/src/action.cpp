@@ -1,16 +1,16 @@
 #include "action.h"
 #include "blink.h"
 #include "tune.h"
+#include "store.h"
 
 
 void onOff() {
   isOn = !isOn;
   if (isOn) {
-    blinkAll(timeInterval * 2, timeInterval * 2);
-    for (int i = 0; i < NUMBER_OF_LETTERS; i++) {
-      blinkers[i].setActive(true);
-    }
+    Serial.println("onOff - On");
+    selectAction(ledModeIrCommand);
   } else {
+    Serial.println("onOff - Off");    
     disableAllBlinkers();
     turnPinsOff();
   }
@@ -18,6 +18,7 @@ void onOff() {
 
 void blinkAll(uint16_t period, uint16_t onMls, uint16_t offMls, byte numOfBlinks) {
   Serial.println("blinkAll - start");
+  if (!isOn) return;
   disableAllBlinkers();
   isBlinkMode = true;
   if (!isOn) return;
@@ -37,6 +38,7 @@ void blinkAll(uint16_t period, uint16_t onMls) {
 
 void setup(uint16_t period, uint16_t onMls, uint16_t offMls) {
   Serial.println("setup - start");
+  if (!isOn) return;
   disableAllBlinkers();
   isBlinkMode = true;
   if (!isOn) return;
@@ -56,9 +58,9 @@ void waveAll() {
   disableAllBlinkers();
   isSwitchMode = false;
   byte pwmWaveValue;
-  byte pwmStep = 2;
+  // byte pwmStep = 2;
 
-  byte i;
+  byte i = 0;
   float angle;
 
   while (true) {
@@ -76,6 +78,7 @@ void waveAll() {
 }
 
 void oneWaveToRight() {
+  if (!isOn) return;
   for (int i = 0; i < NUMBER_OF_LETTERS; i++) {
     blinkers[i].setPeriod(timeInterval * (NUMBER_OF_LETTERS - i));
     blinkers[i].setOnTime((NUMBER_OF_LETTERS - i) * timeInterval);
@@ -101,6 +104,7 @@ void oneWaveToRight() {
 
 void waveLeftToRight() {
   Serial.println("waveLeftToRight - start");
+  if (!isOn) return;
   disableAllBlinkers();
   isSwitchMode = false;
   isBlinkMode = false;
@@ -129,6 +133,7 @@ void waveLeftToRight() {
 
 void waveRightToLeft() {
   Serial.println("waveLeftToRight - start");
+  if (!isOn) return;
   disableAllBlinkers();
   isSwitchMode = false;
   isBlinkMode = false;
@@ -151,6 +156,7 @@ void waveRightToLeft() {
 
 void waveLeftToLeft() {
   Serial.println("waveLeftToRight - start");
+  if (!isOn) return;
   disableAllBlinkers();
   isSwitchMode = false;
   isBlinkMode = false;
@@ -173,6 +179,7 @@ void waveLeftToLeft() {
 
 void waveRightToRight() {
   Serial.println("waveLeftToRight - start");
+  if (!isOn) return;
   disableAllBlinkers();
   isSwitchMode = false;
   isBlinkMode = false;
@@ -191,4 +198,109 @@ void waveRightToRight() {
     if (timerWaveExit.isReady() && isSwitchMode) return;
   }
   Serial.println("waveLeftToRight - end");
+}
+
+void selectAction(byte irCommand) {
+  if (isOn || irCommand == 20 || irCommand == 4) {
+    switch (irCommand) {
+      case 20: // on/off
+        Serial.println("on/off");
+        isSwitchMode = true;
+        onOff();
+        break;
+      case 22: // key 1
+        Serial.println("key 1");
+        isSwitchMode = true;
+        ledModeIrCommand = irCommand;
+        blinkAll(timeInterval * 2, timeInterval * 1.6);
+        break;
+      case 23: // key 2
+        Serial.println("key 2");
+        isSwitchMode = true;
+        ledModeIrCommand = irCommand;
+        blinkAll(timeInterval * 2, timeInterval);
+        break;
+      case 24: // key 3
+        Serial.println("key 3");
+        isSwitchMode = true;
+        ledModeIrCommand = irCommand;
+        blinkAll(timeInterval * 2, 100);
+        break;
+      case 25: // key 4
+        Serial.println("key 4");
+        isSwitchMode = true;
+        ledModeIrCommand = irCommand;
+        blinkAll(timeInterval * 2, 50, 100, 2);
+        break;
+      case 26: // key 5
+        Serial.println("key 5");
+        isSwitchMode = true;
+        ledModeIrCommand = irCommand;
+        waveAll();
+        break;
+      case 27: // key 6
+        Serial.println("key 6");
+        isSwitchMode = true;
+        ledModeIrCommand = irCommand;
+        waveLeftToRight();
+        break;
+      case 28: // key 7
+        Serial.println("key 7");
+        isSwitchMode = true;
+        ledModeIrCommand = irCommand;
+        waveLeftToLeft();
+        break;
+      case 29: // key 8
+        Serial.println("key 8");
+        isSwitchMode = true;
+        ledModeIrCommand = irCommand;
+        waveRightToLeft();
+        break;
+      case 30: // key 9
+        Serial.println("key 9");
+        isSwitchMode = true;
+        ledModeIrCommand = irCommand;
+        waveRightToRight();
+        break;
+      case 31: // key 0
+        Serial.println("key 0");
+        isSwitchMode = true;
+        ledModeIrCommand = irCommand;
+        blinkAll(timeInterval * 2, timeInterval * 2);
+        break;
+      case 9: // setup
+        Serial.println("key setup");
+
+        setup(timeInterval * 8, 50, timeInterval);
+        break;
+      case 18: // key left Up
+        Serial.println("key left Up");
+        tunePwmHighValue(pwmStepValue);
+        break;
+      case 21: // key left Down
+        Serial.println("key left Down");
+        tunePwmHighValue(-pwmStepValue);
+        break;
+      case 16: // key right Up
+        Serial.println("key right Up");
+        tunePwmLowValue(pwmStepValue);
+        break;
+      case 19: // key right Down
+        Serial.println("key right Down");
+        tunePwmLowValue(-pwmStepValue);
+        break;
+      case 11: // key Left
+        Serial.println("key Left");
+        tuneTimeInterval(-timeStep);
+        break;
+      case 13: // key Right
+        Serial.println("key Right");
+        tuneTimeInterval(timeStep);
+        break;
+      case 4: // key Record
+        Serial.println("key Record");
+        writeSettings();
+        break;
+    }
+  }
 }
