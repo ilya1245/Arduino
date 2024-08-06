@@ -7,7 +7,7 @@
 
 #define byte uint8_t
 
-#define SERIAL_SPEED 9600
+#define SERIAL_SPEED 115200
 #define NUMBER_OF_LETTERS 7
 
 extern std::map<int, int> ledPins;

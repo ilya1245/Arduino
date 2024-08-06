@@ -2,3 +2,4 @@
 
 extern void writeSettings();
 extern void readSettings();
+extern void writeDefaultSettings();

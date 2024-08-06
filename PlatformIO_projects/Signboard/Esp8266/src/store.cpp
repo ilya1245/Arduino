@@ -31,6 +31,22 @@ void writeSettings() {
   EEPROM.commit();
 }
 
+void writeDefaultSettings() {
+  EEPROM.write(isOnAddress, 0);
+  printf("\nwrite isOn = %d", 0);  
+  EEPROM.write(ledModeIrCommandAddress, 0);
+  printf("\nwrite ledModeIrCommand = %d", 0);
+  EEPROM.put(timeIntervalAddress, 500);
+  printf("\nwrite timeInterval = %d", 500);
+  EEPROM.put(pwmHighValueAddress, 200);
+  printf("\nwrite pwmHighValue = %d", 200);
+  EEPROM.put(pwmLowValueAddress, 10);
+  printf("\nwrite pwmLowValue = %d", 10);
+  printf("\n");
+
+  EEPROM.commit();
+}
+
 void readSettings() {
   isOn = boolean(EEPROM.read(isOnAddress));
   printf("\nread isOn = %d", isOn);

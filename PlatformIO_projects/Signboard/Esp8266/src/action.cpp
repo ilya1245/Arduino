@@ -201,7 +201,7 @@ void waveRightToRight() {
 }
 
 void selectAction(byte irCommand) {
-  if (isOn || irCommand == 20 || irCommand == 4) {
+  if (isOn || irCommand == 20 || irCommand == 4 || irCommand == 7) {
     switch (irCommand) {
       case 20: // on/off
         Serial.println("on/off");
@@ -300,6 +300,10 @@ void selectAction(byte irCommand) {
       case 4: // key Record
         Serial.println("key Record");
         writeSettings();
+        break;
+      case 7: // key Reset
+        Serial.println("key Reset");
+        writeDefaultSettings();
         break;
     }
   }
