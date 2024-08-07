@@ -3,6 +3,3 @@
 lib
 test
 include
-*.code-workspace
-*.zip
-
