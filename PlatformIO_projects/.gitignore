@@ -1,0 +1,7 @@
+.pio
+.vscode
+lib
+test
+include
+*.code-workspace
+*.zip
