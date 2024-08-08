@@ -9,7 +9,7 @@ void initBlinkers() {
     blinkers[i].setPwmMaxValue(pwmHighValue);
     blinkers[i].setPwmMinValue(pwmLowValue);
     blinkers[i].setActive(false);
-    //    blinkers[i].setLogLevel(1);
+    blinkers[i].setLogLevel(1); // If commented out, the blinkers doesn't work on esp32
   }
 }
 
