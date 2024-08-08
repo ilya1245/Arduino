@@ -1,5 +1,5 @@
 #include "ir.h"
-// #include "action.h"
+#include "action.h"
 // #include "tune.h"
 
 unsigned int debounceTime = 300;
@@ -25,7 +25,7 @@ void processIr() {
       //      Serial.println(irCommand);
       if (isPrintKeyCode) printf("KeyCode: %d\n", irCommand);
       lastTime = currentTime;
-      // selectAction(irCommand);
+      selectAction(irCommand);
       Serial.println("---------------");
       //      irCommand = 0;
     }

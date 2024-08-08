@@ -7,8 +7,8 @@
 #include "common.h"
 // #include "blink.h"
 #include "ir.h"
-// #include "store.h"
-// #include "action.h"
+#include "store.h"
+#include "action.h"
 
 void setup() {
   Serial.begin(SERIAL_SPEED);
@@ -17,7 +17,7 @@ void setup() {
   pinMode(RECV_LED_PIN, OUTPUT);
   irrecv.enableIRIn();  
 
-  // EEPROM.begin(512);
+  EEPROM.begin(512);
   // readSettings();
 
   // for (int i = 0; i < NUMBER_OF_LETTERS; i++) {
