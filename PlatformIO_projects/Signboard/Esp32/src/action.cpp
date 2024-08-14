@@ -285,6 +285,12 @@ void pinRandom() {
   Serial.println("pinRandom - end");
 }
 
+void doFlash(int pin) {
+  analogWrite(ledPins[pin], pwmHighValue);
+  smartDelay(timeFlash);
+  analogWrite(ledPins[pin], pwmLowValue);
+}
+
 void flashLeftToRight() {
   Serial.println("pinLeftToRight - start");
   if (!isOn) return;
@@ -296,9 +302,7 @@ void flashLeftToRight() {
   while (true) {
     for (int i = 0; i < NUMBER_OF_LETTERS; i++) {
       i == 0 ? analogWrite(ledPins[NUMBER_OF_LETTERS-1], pwmLowValue) : analogWrite(ledPins[i-1], pwmLowValue);
-      analogWrite(ledPins[i], pwmHighValue);
-      smartDelay(timeFlash);
-      analogWrite(ledPins[i], pwmLowValue);
+      doFlash(i);
       smartDelay(timeInterval-timeFlash);
       if (isSwitchMode) return;
     }
@@ -317,9 +321,7 @@ void flashRightToLeft() {
   while (true) {
     for (int i = NUMBER_OF_LETTERS - 1; i >= 0; i--) {
       i == 0 ? analogWrite(ledPins[NUMBER_OF_LETTERS-1], pwmLowValue) : analogWrite(ledPins[i-1], pwmLowValue);
-      analogWrite(ledPins[i], pwmHighValue);
-      smartDelay(timeFlash);
-      analogWrite(ledPins[i], pwmLowValue);
+      doFlash(i);
       smartDelay(timeInterval-timeFlash);
       if (isSwitchMode) return;
     }
@@ -338,19 +340,15 @@ void flashBackward() {
   while (true) {
     for (int i = 0; i < NUMBER_OF_LETTERS - 1; i++) {
       i == 0 ? analogWrite(ledPins[NUMBER_OF_LETTERS-1], pwmLowValue) : analogWrite(ledPins[i-1], pwmLowValue);
-      analogWrite(ledPins[i], pwmHighValue);
-      smartDelay(timeFlash);
-      analogWrite(ledPins[i], pwmLowValue);
-      smartDelay(timeInterval);
+      doFlash(i);
+      smartDelay(timeInterval-timeFlash);
       if (isSwitchMode) return;
     }
     turnPinsLow();
     for (int i = NUMBER_OF_LETTERS - 1; i >= 1; i--) {
       i == NUMBER_OF_LETTERS - 1 ? analogWrite(ledPins[0], pwmLowValue) : analogWrite(ledPins[i+1], pwmLowValue);
-      analogWrite(ledPins[i], pwmHighValue);
-      smartDelay(timeFlash);
-      analogWrite(ledPins[i], pwmLowValue);
-      smartDelay(timeInterval);
+      doFlash(i);
+      smartDelay(timeInterval-timeFlash);
       if (isSwitchMode) return;
     }
     turnPinsLow();
@@ -367,17 +365,34 @@ void flashRandom() {
   if (!isOn) return;
 
   while (true) { 
-    byte i = random(NUMBER_OF_LETTERS);
-    analogWrite(ledPins[i], pwmHighValue);
-    smartDelay(timeFlash);
-    analogWrite(ledPins[i], pwmLowValue);
-    smartDelay(timeInterval);
+    int i = random(NUMBER_OF_LETTERS);
+    doFlash(i);
+    smartDelay(timeInterval-timeFlash);
     turnPinsLow();
     if (isSwitchMode) return;  
   }
   Serial.println("flashRandom - end");
 }
 
+void flashRandom_2() {
+  Serial.println("flashRandom - start");
+  if (!isOn) return;
+  disableAllBlinkers();
+  isSwitchMode = false;
+  isBlinkMode = false;
+  if (!isOn) return;
+
+  while (true) { 
+    int i = random(NUMBER_OF_LETTERS);
+    doFlash(i);
+    smartDelay(100);
+    doFlash(i);
+    smartDelay(timeInterval - 100 - 2*timeFlash);
+    turnPinsLow();
+    if (isSwitchMode) return;  
+  }
+  Serial.println("flashRandom - end");
+}
 
 void selectAction(byte irCommand) {
   if (isOn || irCommand == 20 || irCommand == 4 || irCommand == 7) {
@@ -439,7 +454,7 @@ void selectAction(byte irCommand) {
         Serial.println("key 9");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
-        waveRightToRight();
+        nextActionRange == 0 ? waveRightToRight() : flashRandom_2();
         break;
       case 31: // key 0
         Serial.println("key 0");
