@@ -268,6 +268,23 @@ void pinBackward() {
   Serial.println("pinBackward - end");
 }
 
+void pinRandom() {
+  Serial.println("pinRandom - start");
+  if (!isOn) return;
+  disableAllBlinkers();
+  isSwitchMode = false;
+  isBlinkMode = false;
+  if (!isOn) return;
+
+  while (true) {    
+    analogWrite(ledPins[random(NUMBER_OF_LETTERS)], pwmHighValue);
+    smartDelay(timeInterval);
+    turnPinsLow();
+    if (isSwitchMode) return;  
+  }
+  Serial.println("pinRandom - end");
+}
+
 void flashLeftToRight() {
   Serial.println("pinLeftToRight - start");
   if (!isOn) return;
@@ -341,6 +358,26 @@ void flashBackward() {
   Serial.println("pinBackward - end");
 }
 
+void flashRandom() {
+  Serial.println("flashRandom - start");
+  if (!isOn) return;
+  disableAllBlinkers();
+  isSwitchMode = false;
+  isBlinkMode = false;
+  if (!isOn) return;
+
+  while (true) { 
+    byte i = random(NUMBER_OF_LETTERS);
+    analogWrite(ledPins[i], pwmHighValue);
+    smartDelay(timeFlash);
+    analogWrite(ledPins[i], pwmLowValue);
+    smartDelay(timeInterval);
+    turnPinsLow();
+    if (isSwitchMode) return;  
+  }
+  Serial.println("flashRandom - end");
+}
+
 
 void selectAction(byte irCommand) {
   if (isOn || irCommand == 20 || irCommand == 4 || irCommand == 7) {
@@ -390,13 +427,13 @@ void selectAction(byte irCommand) {
         Serial.println("key 7");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
-        waveLeftToLeft();
+        nextActionRange == 0 ? waveLeftToLeft() : pinRandom();
         break;
       case 29: // key 8
         Serial.println("key 8");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
-        waveRightToLeft();
+        nextActionRange == 0 ? waveRightToLeft() : flashRandom();
         break;
       case 30: // key 9
         Serial.println("key 9");
@@ -447,13 +484,13 @@ void selectAction(byte irCommand) {
         Serial.println("key Reset");
         writeDefaultSettings();
         break;
-      case 15: // key Next Range
-        Serial.println("key Next Range");
+      case 15: // key Next Action Range
+        Serial.println("key Next Action Range");
         nextActionRange = 1;
         printf("Action range = %d\n", nextActionRange);
         break;
-      case 10: // key Previous Range
-        Serial.println("key Previous Range");
+      case 10: // key Previous Action Range
+        Serial.println("key Previous Action Range");
         nextActionRange = 0;
         printf("Action range = %d\n", nextActionRange);
         break;
