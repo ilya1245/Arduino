@@ -1,6 +1,8 @@
 
 #include "common.h"
 
+extern byte nextActionRange;
+
 extern void onOff();
 extern void blinkAll(uint16_t period, uint16_t onMls, uint16_t offMls, byte numOfBlinks);
 extern void blinkAll(uint16_t period, uint16_t onMls);

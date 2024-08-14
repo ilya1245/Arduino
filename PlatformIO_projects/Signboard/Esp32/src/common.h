@@ -16,6 +16,7 @@ extern std::map<int, uint8_t> ledPins;
 
 extern int timeInterval; // switch interval in milis
 extern int timeStep; // time tuning step
+extern byte timeFlash; // Flash time
 
 extern GTimer timerWaveExit;
 extern GTimer timer_1s;

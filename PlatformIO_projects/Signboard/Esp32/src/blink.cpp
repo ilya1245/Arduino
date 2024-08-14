@@ -19,6 +19,10 @@ void disableAllBlinkers() {
     blinkers[i].setActive(false);
   }
 
+  turnPinsLow();
+}
+
+void turnPinsLow() {
   for (int i = NUMBER_OF_LETTERS - 1; i >= 0; i--) {
     analogWrite(ledPins[i], pwmLowValue);
   }

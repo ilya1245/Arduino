@@ -2,6 +2,9 @@
 #include "blink.h"
 #include "tune.h"
 #include "store.h"
+#include "common.h"
+
+byte nextActionRange = 0;
 
 
 void onOff() {
@@ -200,6 +203,145 @@ void waveRightToRight() {
   Serial.println("waveLeftToRight - end");
 }
 
+void pinLeftToRight() {
+  Serial.println("pinLeftToRight - start");
+  if (!isOn) return;
+  disableAllBlinkers();
+  isSwitchMode = false;
+  isBlinkMode = false;
+  if (!isOn) return;
+
+  while (true) {
+    for (int i = 0; i < NUMBER_OF_LETTERS; i++) {
+      i == 0 ? analogWrite(ledPins[NUMBER_OF_LETTERS-1], pwmLowValue) : analogWrite(ledPins[i-1], pwmLowValue);
+      analogWrite(ledPins[i], pwmHighValue);
+      smartDelay(timeInterval);
+      if (isSwitchMode) return;
+    }
+  }
+  Serial.println("pinLeftToRight - end");
+}
+
+void pinRightToLeft() {
+  Serial.println("pinRightToLeft - start");
+  if (!isOn) return;
+  disableAllBlinkers();
+  isSwitchMode = false;
+  isBlinkMode = false;
+  if (!isOn) return;
+
+  while (true) {
+    for (int i = NUMBER_OF_LETTERS - 1; i >= 0; i--) {
+      i == NUMBER_OF_LETTERS - 1 ? analogWrite(ledPins[0], pwmLowValue) : analogWrite(ledPins[i+1], pwmLowValue);
+      analogWrite(ledPins[i], pwmHighValue);
+      smartDelay(timeInterval);
+      if (isSwitchMode) return;
+    }
+  }
+  Serial.println("pinRightToLeft - end");
+}
+
+void pinBackward() {
+  Serial.println("pinBackward - start");
+  if (!isOn) return;
+  disableAllBlinkers();
+  isSwitchMode = false;
+  isBlinkMode = false;
+  if (!isOn) return;
+
+  while (true) {
+    for (int i = 0; i < NUMBER_OF_LETTERS - 1; i++) {
+      i == 0 ? analogWrite(ledPins[NUMBER_OF_LETTERS-1], pwmLowValue) : analogWrite(ledPins[i-1], pwmLowValue);
+      analogWrite(ledPins[i], pwmHighValue);
+      smartDelay(timeInterval);
+      if (isSwitchMode) return;
+    }
+    turnPinsLow();
+    for (int i = NUMBER_OF_LETTERS - 1; i >= 1; i--) {
+      i == NUMBER_OF_LETTERS - 1 ? analogWrite(ledPins[0], pwmLowValue) : analogWrite(ledPins[i+1], pwmLowValue);
+      analogWrite(ledPins[i], pwmHighValue);
+      smartDelay(timeInterval);
+      if (isSwitchMode) return;
+    }
+    turnPinsLow();
+  }
+  Serial.println("pinBackward - end");
+}
+
+void flashLeftToRight() {
+  Serial.println("pinLeftToRight - start");
+  if (!isOn) return;
+  disableAllBlinkers();
+  isSwitchMode = false;
+  isBlinkMode = false;
+  if (!isOn) return;
+
+  while (true) {
+    for (int i = 0; i < NUMBER_OF_LETTERS; i++) {
+      i == 0 ? analogWrite(ledPins[NUMBER_OF_LETTERS-1], pwmLowValue) : analogWrite(ledPins[i-1], pwmLowValue);
+      analogWrite(ledPins[i], pwmHighValue);
+      smartDelay(timeFlash);
+      analogWrite(ledPins[i], pwmLowValue);
+      smartDelay(timeInterval-timeFlash);
+      if (isSwitchMode) return;
+    }
+  }
+  Serial.println("pinLeftToRight - end");
+}
+
+void flashRightToLeft() {
+  Serial.println("pinLeftToRight - start");
+  if (!isOn) return;
+  disableAllBlinkers();
+  isSwitchMode = false;
+  isBlinkMode = false;
+  if (!isOn) return;
+
+  while (true) {
+    for (int i = NUMBER_OF_LETTERS - 1; i >= 0; i--) {
+      i == 0 ? analogWrite(ledPins[NUMBER_OF_LETTERS-1], pwmLowValue) : analogWrite(ledPins[i-1], pwmLowValue);
+      analogWrite(ledPins[i], pwmHighValue);
+      smartDelay(timeFlash);
+      analogWrite(ledPins[i], pwmLowValue);
+      smartDelay(timeInterval-timeFlash);
+      if (isSwitchMode) return;
+    }
+  }
+  Serial.println("pinLeftToRight - end");
+}
+
+void flashBackward() {
+  Serial.println("pinBackward - start");
+  if (!isOn) return;
+  disableAllBlinkers();
+  isSwitchMode = false;
+  isBlinkMode = false;
+  if (!isOn) return;
+
+  while (true) {
+    for (int i = 0; i < NUMBER_OF_LETTERS - 1; i++) {
+      i == 0 ? analogWrite(ledPins[NUMBER_OF_LETTERS-1], pwmLowValue) : analogWrite(ledPins[i-1], pwmLowValue);
+      analogWrite(ledPins[i], pwmHighValue);
+      smartDelay(timeFlash);
+      analogWrite(ledPins[i], pwmLowValue);
+      smartDelay(timeInterval);
+      if (isSwitchMode) return;
+    }
+    turnPinsLow();
+    for (int i = NUMBER_OF_LETTERS - 1; i >= 1; i--) {
+      i == NUMBER_OF_LETTERS - 1 ? analogWrite(ledPins[0], pwmLowValue) : analogWrite(ledPins[i+1], pwmLowValue);
+      analogWrite(ledPins[i], pwmHighValue);
+      smartDelay(timeFlash);
+      analogWrite(ledPins[i], pwmLowValue);
+      smartDelay(timeInterval);
+      if (isSwitchMode) return;
+    }
+    turnPinsLow();
+  }
+  Serial.println("pinBackward - end");
+}
+
+
 void selectAction(byte irCommand) {
   if (isOn || irCommand == 20 || irCommand == 4 || irCommand == 7) {
     switch (irCommand) {
@@ -212,37 +354,37 @@ void selectAction(byte irCommand) {
         Serial.println("key 1");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
-        blinkAll(timeInterval * 2, timeInterval * 1.6);
+        nextActionRange == 0 ? blinkAll(timeInterval * 2, timeInterval * 1.6) : pinLeftToRight();
         break;
       case 23: // key 2
         Serial.println("key 2");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
-        blinkAll(timeInterval * 2, timeInterval);
+        nextActionRange == 0 ? blinkAll(timeInterval * 2, timeInterval) : pinRightToLeft();
         break;
       case 24: // key 3
         Serial.println("key 3");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
-        blinkAll(timeInterval * 2, 100);
+        nextActionRange == 0 ? blinkAll(timeInterval * 2, timeFlash) : pinBackward();
         break;
       case 25: // key 4
         Serial.println("key 4");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
-        blinkAll(timeInterval * 2, 50, 100, 2);
+        nextActionRange == 0 ? blinkAll(timeInterval * 2, timeFlash, 100, 2) : flashLeftToRight();
         break;
       case 26: // key 5
         Serial.println("key 5");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
-        waveAll();
+        nextActionRange == 0 ? waveAll() : flashRightToLeft();
         break;
       case 27: // key 6
         Serial.println("key 6");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
-        waveLeftToRight();
+        nextActionRange == 0 ? waveLeftToRight() : flashBackward();
         break;
       case 28: // key 7
         Serial.println("key 7");
@@ -304,6 +446,16 @@ void selectAction(byte irCommand) {
       case 7: // key Reset
         Serial.println("key Reset");
         writeDefaultSettings();
+        break;
+      case 15: // key Next Range
+        Serial.println("key Next Range");
+        nextActionRange = 1;
+        printf("Action range = %d\n", nextActionRange);
+        break;
+      case 10: // key Previous Range
+        Serial.println("key Previous Range");
+        nextActionRange = 0;
+        printf("Action range = %d\n", nextActionRange);
         break;
     }
   }
