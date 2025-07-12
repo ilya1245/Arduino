@@ -1,6 +1,6 @@
 #include "store.h"
 #include "common.h"
-// #include "tune.h"
+#include "tune.h"
 
 int isOnAddress = 0;
 int ledModeIrCommandAddress = 2;
@@ -22,10 +22,10 @@ void writeSettings() {
   } 
   EEPROM.put(timeIntervalAddress, timeInterval);
   printf("\nwrite timeInterval = %d", timeInterval);
-  // EEPROM.put(pwmHighValueAddress, pwmHighValue);
-  // printf("\nwrite pwmHighValue = %d", pwmHighValue);
-  // EEPROM.put(pwmLowValueAddress, pwmLowValue);
-  // printf("\nwrite pwmLowValue = %d", pwmLowValue);
+  EEPROM.put(pwmHighValueAddress, pwmHighValue);
+  printf("\nwrite pwmHighValue = %d", pwmHighValue);
+  EEPROM.put(pwmLowValueAddress, pwmLowValue);
+  printf("\nwrite pwmLowValue = %d", pwmLowValue);
   printf("\n");
 
   EEPROM.commit();
@@ -54,9 +54,9 @@ void readSettings() {
   printf("\nread ledModeIrCommand = %d", ledModeIrCommand);
   EEPROM.get(timeIntervalAddress, timeInterval);
   printf("\nread timeInterval = %d", timeInterval);
-  // EEPROM.get(pwmHighValueAddress, pwmHighValue);
-  // printf("\nread pwmHighValue = %d", pwmHighValue);
-  // EEPROM.get(pwmLowValueAddress, pwmLowValue);
-  // printf("\nread pwmLowValue = %d", pwmLowValue);
+  EEPROM.get(pwmHighValueAddress, pwmHighValue);
+  printf("\nread pwmHighValue = %d", pwmHighValue);
+  EEPROM.get(pwmLowValueAddress, pwmLowValue);
+  printf("\nread pwmLowValue = %d", pwmLowValue);
   printf("\n");
 }
