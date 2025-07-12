@@ -1,6 +1,6 @@
 #include "common.h"
 
-std::map<int, int> ledPins = { {0, D1}, {1, D2}, {2, D3}, {3, D4}, {4, D6}, {5, D7}, {6, D8} };
+std::map<int, int> ledPins = { {0, D1}, {1, D2} };
 
 int timeInterval = 500; // switch interval in milis
 int timeStep = 100; // time tuning step

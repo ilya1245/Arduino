@@ -3,7 +3,7 @@
 #include "common.h"
 
 #define RECV_PIN D5
-#define RECV_LED_PIN D0
+#define RECV_LED_PIN D8
 
 extern IRrecv irrecv;
 
