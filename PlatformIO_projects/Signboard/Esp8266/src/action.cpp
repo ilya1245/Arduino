@@ -200,6 +200,28 @@ void waveRightToRight() {
   Serial.println("waveLeftToRight - end");
 }
 
+void tukTuk() {
+  Serial.println("tukTuk - start");
+  if (!isOn) return;
+  disableAllBlinkers();
+  isSwitchMode = false;
+  isBlinkMode = false;
+  if (!isOn) return;
+
+  while (true) {
+    for (int i = NUMBER_OF_LETTERS - 1; i >= 0; i--) {
+      analogWrite(ledPins[i], pwmHighValue);
+      smartDelay(100);
+      analogWrite(ledPins[i], pwmLowValue);
+      smartDelay(timeInterval * 2 - 100);
+    }
+    if (timerWaveExit.isReady() && isSwitchMode) return;
+  }
+  Serial.println("tukTuk - end");
+}
+
+
+
 void selectAction(byte irCommand) {
   if (isOn || irCommand == 20 || irCommand == 4 || irCommand == 7) {
     switch (irCommand) {
@@ -209,59 +231,54 @@ void selectAction(byte irCommand) {
         onOff();
         break;
       case 22: // key 1
-        Serial.println("key 1");
-        isSwitchMode = true;
-        ledModeIrCommand = irCommand;
-        blinkAll(timeInterval * 2, timeInterval * 1.6);
-        break;
-      case 23: // key 2
-        Serial.println("key 2");
-        isSwitchMode = true;
-        ledModeIrCommand = irCommand;
-        blinkAll(timeInterval * 2, timeInterval);
-        break;
-      case 24: // key 3
-        Serial.println("key 3");
-        isSwitchMode = true;
-        ledModeIrCommand = irCommand;
-        blinkAll(timeInterval * 2, 100);
-        break;
-      case 25: // key 4
-        Serial.println("key 4");
-        isSwitchMode = true;
-        ledModeIrCommand = irCommand;
-        blinkAll(timeInterval * 2, 50, 100, 2);
-        break;
-      case 26: // key 5
         Serial.println("key 5");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
         waveAll();
         break;
-      case 27: // key 6
-        Serial.println("key 6");
+      case 23: // key 2
+        Serial.println("key 2");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
-        waveLeftToRight();
+        tukTuk();
         break;
-      case 28: // key 7
-        Serial.println("key 7");
+      case 24: // key 3
+        Serial.println("key 3");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
-        waveLeftToLeft();
+        blinkAll(timeInterval * 3, 100);
         break;
-      case 29: // key 8
-        Serial.println("key 8");
+      case 25: // key 4
+        Serial.println("key 4");
         isSwitchMode = true;
         ledModeIrCommand = irCommand;
-        waveRightToLeft();
+        blinkAll(timeInterval * 3, 50, 100, 2);
         break;
-      case 30: // key 9
-        Serial.println("key 9");
-        isSwitchMode = true;
-        ledModeIrCommand = irCommand;
-        waveRightToRight();
-        break;
+      
+      // case 27: // key 6
+      //   Serial.println("key 6");
+      //   isSwitchMode = true;
+      //   ledModeIrCommand = irCommand;
+      //   waveLeftToRight();
+      //   break;
+      // case 28: // key 7
+      //   Serial.println("key 7");
+      //   isSwitchMode = true;
+      //   ledModeIrCommand = irCommand;
+      //   waveLeftToLeft();
+      //   break;
+      // case 29: // key 8
+      //   Serial.println("key 8");
+      //   isSwitchMode = true;
+      //   ledModeIrCommand = irCommand;
+      //   waveRightToLeft();
+      //   break;
+      // case 30: // key 9
+      //   Serial.println("key 9");
+      //   isSwitchMode = true;
+      //   ledModeIrCommand = irCommand;
+      //   waveRightToRight();
+      //   break;
       case 31: // key 0
         Serial.println("key 0");
         isSwitchMode = true;
