@@ -1,0 +1,3 @@
+ATTiny88 MH-Tiny + TSOP 1838 IR RECIEVER
+
+1. The code can be composed in PlatformIO but handleReceivedTinyIRData() doesn't work. So should be compiled in ArduinoIDE.
