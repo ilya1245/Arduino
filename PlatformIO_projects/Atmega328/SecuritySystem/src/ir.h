@@ -1,7 +1,6 @@
 #include <NecDecoder.h>
 #include <Arduino.h>
 #include <common.h>
-// #include <controlLight.h>
 
 #define RECV_PIN 2
 

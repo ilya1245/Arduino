@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <GyverTimer.h>
 #include <LibPrintf.h>
-#include <LiquidCrystal_I2C.h>
 #include <LedBlink.h>
 #include <constants.h>
 
