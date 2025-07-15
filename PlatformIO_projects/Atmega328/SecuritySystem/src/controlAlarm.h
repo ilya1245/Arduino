@@ -1,6 +1,7 @@
 #include <common.h>
 
-extern void checkDoorSensor();
-extern void controlLightByPIR();
-extern void controlLightBySound();
-extern void controlLight();
+// extern void checkDoorSensor();
+// extern void checkIrSensor();
+// extern void checkFireSensor();
+// extern void checkVibraSensor();
+extern void checkSensors();

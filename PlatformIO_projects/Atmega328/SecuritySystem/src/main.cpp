@@ -5,7 +5,7 @@
 #include "controlAlarm.h"
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(SERIAL_SPEED);
 
   attachInterrupt(0, irIsr, FALLING);
   pinMode(RECV_PIN, INPUT);
@@ -37,7 +37,9 @@ void setup() {
   // pinMode(SOUND_SENSOR_GROUND_PIN, OUTPUT);
   // digitalWrite(SOUND_SENSOR_GROUND_PIN, 0);
 
-  soundTimer.setTimeout(ALARM_ON_TIME);
+  alarmTimer.setTimeout(ALARM_ON_TIME);
+  alarmTimer.stop();
+  setMode(0);
 
   // lcd.init();
   // lcd.backlight();
@@ -46,11 +48,22 @@ void setup() {
 }
 
 void loop() {
-  checkDoorSensor();
-  // processIr();
-  // controlLight();
 
-  // if (lcdClearTimer.isReady()) lcd.clear();
+  checkSensors();  
+  processIr();
+  
+  if (alarmTimer.isReady()) {
+    Serial.println("alarmTimer.isReady()");    
+    beepAlarmBlinker.setActive(false);
+    ledAlarmBlinker.setActive(false);
+    ledStandbyBlinker.setActive(false);
+    alarmTimer.stop();
+    if (mode == 1) ledStandbyBlinker.setActive(true);
+  } 
+  // ;
+
+
+  blink();
 }
 
 
