@@ -14,24 +14,33 @@ void offAllBlinkers() {
   ledStandbyBlinker.setActive(false);
 }
 
+void shortBeep(int beeps) {
+  for (int i = 0; i < beeps; i++) {
+    digitalWrite(BEEP_SIGNAL_PIN, 1);  
+    delay(50);
+    digitalWrite(BEEP_SIGNAL_PIN, 0);
+    delay(100);
+  }
+}
+
 void setMode(int m) {
   mode = m;
   Serial.print("Mode ");  Serial.println(mode); 
-  digitalWrite(BEEP_SIGNAL_PIN, 1);  
-  delay(50);
-  digitalWrite(BEEP_SIGNAL_PIN, 0);
   offAllBlinkers();
 
   switch (mode) {
-    case 0:      
+    case 0: 
+      shortBeep(1);     
       break; 
     case 1:
+      shortBeep(2);
       ledStandbyBlinker.setActive(true);
       break;  
     default:
       break;
-  }
+  }  
 }
+
 
 void blink() {
   ledStandbyBlinker.blink();
