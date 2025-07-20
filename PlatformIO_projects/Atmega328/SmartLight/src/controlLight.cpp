@@ -27,7 +27,7 @@ void controlLightByPIR() {
 
 void controlLightBySound() {
   int soundValue = soundValue = analogRead(SOUND_SENSOR_PIN);
-  if (soundValue > 21) {
+  if (soundValue > soudLevelThreshold - 1) {
     Serial.print("soundValue = ");
     Serial.println(soundValue);  
 
@@ -41,7 +41,7 @@ void controlLightBySound() {
     // Serial.println(soundTimer.isEnabled());
   }
   
-  if (soundValue > 22) {  
+  if (soundValue > soudLevelThreshold) {  
     if (!soundTimer.isReady()) return;
     Serial.println("Sound!!!");
     lcd.setCursor(0,1);

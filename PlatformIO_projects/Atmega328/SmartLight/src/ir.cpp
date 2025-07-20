@@ -26,11 +26,19 @@ void processIr() {
           break;
       case 98: // up
           Serial.println("Up"); 
-          if (pwmValue < 250) pwmValue += 10;         
+          if (mode != 3) {
+            if (pwmValue < 250) pwmValue += 10;   
+          } else {
+            soudLevelThreshold++;
+          }      
           break;
       case 168: // down
           Serial.println("Down");
-          if (pwmValue > pwmMinValue) pwmValue -= 10;
+          if (mode != 3) {
+            if (pwmValue > pwmMinValue) pwmValue -= 10;
+          } else {
+            soudLevelThreshold--;
+          } 
           break;
       case 104: // 1          
           setMode(1);        

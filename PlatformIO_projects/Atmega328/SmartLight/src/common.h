@@ -12,6 +12,7 @@ extern boolean lightState;
 
 extern byte pwmValue;
 extern byte pwmMinValue;
+extern int soudLevelThreshold;
 
 extern LiquidCrystal_I2C lcd;
 

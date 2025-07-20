@@ -11,6 +11,7 @@ boolean lightState = false;
 
 byte pwmValue = 255;
 byte pwmMinValue = 10;
+int soudLevelThreshold = 523;
 
 void setMode(int m) {
   // if (mode == m) return;
