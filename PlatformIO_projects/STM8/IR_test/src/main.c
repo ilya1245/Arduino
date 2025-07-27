@@ -50,11 +50,34 @@ void setup() {
   printf("IR receiver ready\n");
 }
 
+uint32_t lastCode = 0;
+uint32_t lastTime = 0;
+
 void loop() {
-  uint32_t irCode = readIRCode();
-  if (irCode != 0) {
-    printf("IR code: %lu\n", irCode);  // Десятичный
-    // printf("IR code: 0x%08lX\n", irCode); // Или HEX
-    delay(300);  // Антидребезг
+  uint32_t irCode = readIRCode();  // ваша функция чтения IR
+
+  if (irCode == 0) {
+    return;  // ничего не пришло
   }
+
+  if (irCode == 4294967295UL) {
+    // повтор — используем lastCode
+    irCode = lastCode;
+  } else {
+    // новое нажатие
+    lastCode = irCode;
+  }
+
+  // Обработка нажатий
+  printf("IR code: %lu\n", irCode);
+
+  if (irCode == 2155836045UL) {
+    printf("Key 1\n");
+  } else if (irCode == 2155851855UL) {
+    printf("Key 2\n");
+  } else if (irCode == 2155819215UL) {
+    printf("Key 3\n");
+  }
+
+  delay(100);  // Защита от повторной обработки
 }
