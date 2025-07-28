@@ -1,11 +1,12 @@
 #include "common.h"
 
-int mode = 0; // on
+int mode = 1; // on
 
 byte pwmMaxValue = 200;
 byte pwmMinValue = 10;
+byte pwmStep = 5;
 
-bool isKeyPressed = false;
+// bool isKeyPressed = false;
 
 int putchar(int c) {
   Serial_write(c);
@@ -15,7 +16,7 @@ int putchar(int c) {
 void setMode(int m) {
   // if (mode == m) return;
   mode = m;
-  printf("mode: %d\n", mode);
+  // printf("mode: %d\n", mode);
   // Serial.print("Mode ");
   // Serial.println(mode);
 }
@@ -47,7 +48,7 @@ float bhaskara_cos(float x_deg) {
 }
 
 void wave_3() {
-  printf("wave_3()\n");
+  // printf("wave_3()\n");
   // processIr();
   // if (mode == 0) return;
   byte pwmWaveValue;
@@ -57,24 +58,25 @@ void wave_3() {
   while (true) {
     if (mode == 0) return;
     // printf("wave_3() - loop\n");
-    // i += 3;
-    angle = (i++ * 180.0f) / 255;
+    i += 2;
+    angle = (i * 180.0f) / 255;
     pwmWaveValue = pwmMinValue + (byte)((1 - abs(bhaskara_cos(angle))) * (pwmMaxValue - pwmMinValue));
     analogWrite(PWM_PIN, pwmWaveValue);
     // delay(20); //slow down the wave
-    if (i % 5 == 0) processIr();
+    if (i % 10 == 0) processIr();
     // if (i == 10) 
     // loop();
   }
 }
 
 void doWave() {
-  printf("doWave()\n");
-  if (mode == 1) {
-    wave_3();
-  } else {
-    digitalWrite(PWM_PIN, LOW);
-  }
+  // printf("doWave()\n");
+  mode == 0 ? digitalWrite(PWM_PIN, LOW) : wave_3();
+  // if (mode == 1) {
+  //   wave_3();
+  // } else {
+  //   digitalWrite(PWM_PIN, LOW);
+  // }
 }
 
 // void wave_2() {

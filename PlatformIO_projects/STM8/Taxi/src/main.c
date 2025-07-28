@@ -17,19 +17,19 @@ void setup() {
   Serial_begin(9600);
   pinMode(PWM_PIN, OUTPUT); 
   pinMode(RECV_PIN, INPUT);
-  printf("IR receiver ready\n");
+  // printf("IR receiver ready\n");
 }
 
 
 
 void loop() {
-  printf("loop()\n");
+  // printf("loop()\n");
   processIr();
   // if (mode == 1) {
   //   printf("loop() - doWave()\n");
   //   doWave(); 
   // } 
-  printf("loop() - doWave()\n");
+  // printf("loop() - doWave()\n");
   doWave();  
 }
 
