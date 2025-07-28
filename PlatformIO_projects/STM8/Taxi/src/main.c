@@ -25,7 +25,7 @@ void setup() {
 void loop() {
   // printf("loop()\n");
   processIr();
-  // wave_1();  
+  wave_3();  
 }
 
 
