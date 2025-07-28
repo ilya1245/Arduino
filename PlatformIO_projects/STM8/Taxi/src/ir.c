@@ -1,7 +1,6 @@
-// #include <Arduino.h>
 #include <ir.h>
 
-// boolean isPrintKeyCode = true;
+uint32_t lastCode = 0;
 
 uint32_t readIRCode() {
   // Ждём начала сигнала
@@ -45,9 +44,6 @@ uint32_t readIRCode() {
 
   return code;
 }
-
-
-uint32_t lastCode = 0;
 
 void processIr() {
   uint32_t irCode = readIRCode();  // ваша функция чтения IR
@@ -94,65 +90,5 @@ void processIr() {
       break;  
   }
   
-
-
-
-  // if (irCode == 2155836045UL) {
-  //   printf("Key 1\n");
-  // } else if (irCode == 2155851855UL) {
-  //   printf("Key 2\n");
-  // } else if (irCode == 2155819215UL) {
-  //   printf("Key 3\n");
-  // } else if (irCode == 2155807485UL) {
-  //   printf("On/Off\n");
-  // }
-  
-
-  delay(100);  // Защита от повторной обработки
-  // doWave();
-
-  // if (ir.available()) {
-  //   digitalWrite(RED_LED_PIN, 1);
-  //   delay(20);
-  //   digitalWrite(RED_LED_PIN, 0);
-  //   lightTimer.stop();
-
-  //   controlLightByState();
-  //   if(isPrintKeyCode) printf("KeyCode: %d   \n", ir.readCommand());
-
-  //   switch(ir.readCommand()) {
-  //     case 2: // ok button
-  //         Serial.println("Ok"); 
-  //         lightState = !lightState;
-  //         setMode(1);                   
-  //         break;
-  //     case 98: // up
-  //         Serial.println("Up"); 
-  //         if (mode != 3) {
-  //           if (pwmValue < 250) pwmValue += 10;   
-  //         } else {
-  //           soudLevelThreshold++;
-  //         }      
-  //         break;
-  //     case 168: // down
-  //         Serial.println("Down");
-  //         if (mode != 3) {
-  //           if (pwmValue > pwmMinValue) pwmValue -= 10;
-  //         } else {
-  //           soudLevelThreshold--;
-  //         } 
-  //         break;
-  //     case 104: // 1          
-  //         setMode(1);        
-  //         break;
-  //     case 152: // 2
-  //         setMode(2);
-  //         break;
-  //     case 176: // 3
-  //         setMode(3);
-  //         break;
-  //     default: // auto
-  //       break;  
-  //   }
-  // }  
+  delay(100);  // Защита от повторной обработки 
 }

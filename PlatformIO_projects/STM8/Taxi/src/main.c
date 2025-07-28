@@ -1,17 +1,4 @@
-// #include <Arduino.h>
-// #include <math.h>
-// #include <common.h>
 #include <ir.h>
-
-// #define PWM_PIN 5  // Например, D5 = PD4 на STM8S103F3
-
-// byte pwmMinValue = 30;
-// byte pwmMaxValue = 255;
-
-// int putchar(int c) {
-//   Serial_write(c);
-//   return c;
-// }
 
 void setup() {
   Serial_begin(9600);
@@ -25,10 +12,6 @@ void setup() {
 void loop() {
   // printf("loop()\n");
   processIr();
-  // if (mode == 1) {
-  //   printf("loop() - doWave()\n");
-  //   doWave(); 
-  // } 
   // printf("loop() - doWave()\n");
   doWave();  
 }

@@ -6,11 +6,9 @@ extern int mode;
 extern byte pwmMaxValue;
 extern byte pwmMinValue;
 extern byte pwmStep;
-// extern bool isKeyPressed;
 
 extern int putchar(int c);
 
 extern void setMode(int m);
 
 extern void doWave();
-// extern void wave_2();
