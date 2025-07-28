@@ -23,9 +23,14 @@ void setup() {
 
 
 void loop() {
-  // printf("loop()\n");
+  printf("loop()\n");
   processIr();
-  wave_3();  
+  // if (mode == 1) {
+  //   printf("loop() - doWave()\n");
+  //   doWave(); 
+  // } 
+  printf("loop() - doWave()\n");
+  doWave();  
 }
 
 

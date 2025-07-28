@@ -2,13 +2,14 @@
 // #include <math.h>
 #include <constants.h>
 
-// extern int mode; 
+extern int mode; 
 extern byte pwmMaxValue;
 extern byte pwmMinValue;
+extern bool isKeyPressed;
 
 extern int putchar(int c);
 
-// extern void setMode(int m);
+extern void setMode(int m);
 
-extern void wave_1();
+extern void doWave();
 // extern void wave_2();

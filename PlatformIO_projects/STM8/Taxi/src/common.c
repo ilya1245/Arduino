@@ -1,21 +1,24 @@
 #include "common.h"
 
-// int mode = 1; 
+int mode = 0; // on
 
-byte pwmMaxValue = 100;
-byte pwmMinValue = 30;
+byte pwmMaxValue = 200;
+byte pwmMinValue = 10;
+
+bool isKeyPressed = false;
 
 int putchar(int c) {
   Serial_write(c);
   return c;
 }
 
-// void setMode(int m) {
-//   // if (mode == m) return;
-//   mode = m;
-//   // Serial.print("Mode ");
-//   // Serial.println(mode);
-// }
+void setMode(int m) {
+  // if (mode == m) return;
+  mode = m;
+  printf("mode: %d\n", mode);
+  // Serial.print("Mode ");
+  // Serial.println(mode);
+}
 
 // void wave_1() {
 //   // Увеличиваем яркость
@@ -44,15 +47,33 @@ float bhaskara_cos(float x_deg) {
 }
 
 void wave_3() {
+  printf("wave_3()\n");
+  // processIr();
+  // if (mode == 0) return;
   byte pwmWaveValue;
   byte i = 0;
   float angle;
 
   while (true) {
+    if (mode == 0) return;
+    // printf("wave_3() - loop\n");
+    // i += 3;
     angle = (i++ * 180.0f) / 255;
     pwmWaveValue = pwmMinValue + (byte)((1 - abs(bhaskara_cos(angle))) * (pwmMaxValue - pwmMinValue));
     analogWrite(PWM_PIN, pwmWaveValue);
-    delay(20); //slow down the wave
+    // delay(20); //slow down the wave
+    if (i % 5 == 0) processIr();
+    // if (i == 10) 
+    // loop();
+  }
+}
+
+void doWave() {
+  printf("doWave()\n");
+  if (mode == 1) {
+    wave_3();
+  } else {
+    digitalWrite(PWM_PIN, LOW);
   }
 }
 

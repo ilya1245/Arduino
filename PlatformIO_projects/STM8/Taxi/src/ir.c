@@ -5,7 +5,7 @@
 
 uint32_t readIRCode() {
   // Ждём начала сигнала
-  while (digitalRead(RECV_PIN) == HIGH);
+  while (digitalRead(RECV_PIN) == HIGH && millis() % 100 != 0);
 
   // LOW ~9мс
   unsigned long start = micros();
@@ -66,15 +66,33 @@ void processIr() {
     lastCode = irCode;
   }  
 
-  if (irCode == 2155836045UL) {
-    printf("Key 1\n");
-  } else if (irCode == 2155851855UL) {
-    printf("Key 2\n");
-  } else if (irCode == 2155819215UL) {
-    printf("Key 3\n");
+  switch(irCode) {
+    case 2155807485UL: // On/Off    
+      printf("On/Off\n");      
+      mode == 0 ? setMode(1) : setMode(0); // on the watch system  
+      // isKeyPressed = true;  
+      break;
+    case 2155836045UL: // Key 1
+      printf("Key 1\n");
+      break; 
   }
+  
+
+
+
+  // if (irCode == 2155836045UL) {
+  //   printf("Key 1\n");
+  // } else if (irCode == 2155851855UL) {
+  //   printf("Key 2\n");
+  // } else if (irCode == 2155819215UL) {
+  //   printf("Key 3\n");
+  // } else if (irCode == 2155807485UL) {
+  //   printf("On/Off\n");
+  // }
+  
 
   delay(100);  // Защита от повторной обработки
+  doWave();
 
   // if (ir.available()) {
   //   digitalWrite(RED_LED_PIN, 1);
