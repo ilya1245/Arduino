@@ -4,7 +4,7 @@ uint32_t lastCode = 0;
 
 uint32_t readIRCode() {
   // Ждём начала сигнала
-  while (digitalRead(RECV_PIN) == HIGH && millis() % 100 != 0);
+  while (digitalRead(RECV_PIN) == HIGH && millis() % 50 != 0);
 
   // LOW ~9мс
   unsigned long start = micros();
@@ -63,32 +63,37 @@ void processIr() {
   } else {
     // новое нажатие
     lastCode = irCode;
-  }  
+  } 
+  
+  digitalWrite(RECV_LED_PIN, HIGH);
+  delay(30);
+  digitalWrite(RECV_LED_PIN, LOW);
 
   switch(irCode) {
-    case 2155807485UL: // On/Off    
+    case 16712445UL: // On/Off    
       printf("On/Off\n");      
       mode == 0 ? setMode(1) : setMode(0); // on the watch system  
       // isKeyPressed = true;  
       break;
-    case 2155836045UL: // Key 1 - increase bottom pwm level
+    case 16738455UL: // Key 1 - increase bottom pwm level
       printf("Key 1\n");
       pwmMinValue += pwmStep;
       break; 
-    case 2155827885UL: // Key 4 - decrease bottom pwm level
+    case 16724175UL: // Key 4 - decrease bottom pwm level
       printf("Key 4\n");
       if (pwmMinValue >= pwmStep) pwmMinValue -= pwmStep;
       break; 
 
-    case 2155819215UL: // Key 3 - increase top pwm level
+    case 16756815UL: // Key 3 - increase top pwm level
       printf("Key 3\n");
       if (pwmMaxValue <= 255 - pwmStep) pwmMaxValue += pwmStep;
       break; 
-    case 2155811055UL: // Key 6 - decrease top pwm level
+    case 16743045UL: // Key 6 - decrease top pwm level
       printf("Key 6\n");
       pwmMaxValue -= pwmStep;
       break;  
   }
-  
-  delay(100);  // Защита от повторной обработки 
+    
+  // printf("delay\n");
+  delay(50);  // Защита от повторной обработки 
 }

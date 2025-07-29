@@ -2,7 +2,7 @@
 
 int mode = 1; // on
 
-byte pwmMaxValue = 200;
+byte pwmMaxValue = 100;
 byte pwmMinValue = 10;
 byte pwmStep = 5;
 
@@ -37,12 +37,16 @@ void wave_3() {
   while (true) {
     if (mode == 0) return;
     // printf("wave_3() - loop\n");
-    i += 2;
-    angle = (i * 180.0f) / 255;
+    // i += 2;
+    angle = (i++ * 180.0f) / 255;
     pwmWaveValue = pwmMinValue + (byte)((1 - abs(bhaskara_cos(angle))) * (pwmMaxValue - pwmMinValue));
-    analogWrite(PWM_PIN, pwmWaveValue);
-    // delay(20); //slow down the wave
-    if (i % 10 == 0) processIr();
+    analogWrite(PWM_PIN, pwmWaveValue);    
+    if (i % 3 == 0) {
+      processIr();
+    } 
+    // else {
+    //   delay(20); //slow down the wave
+    // }
   }
 }
 
