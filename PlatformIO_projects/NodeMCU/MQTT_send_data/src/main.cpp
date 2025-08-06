@@ -4,8 +4,8 @@
 
 void setup() { 
   Serial.begin(SERIAL_SPEED);
-  wiFiMultiStable.setLogLevel(2);
-  client.setServer(MQTT_SERVER, MQTT_PORT);
+  wiFiMultiStable.setLogLevel(2);  
+  mqttClient.setServer(MQTT_SERVER, MQTT_PORT);
   connectToMQTT();  
 } 
 
@@ -32,14 +32,12 @@ void loop() {
      
   if(timer_10s.isReady()) { 
     Serial.println("\nSending data");
-    if (!client.connected()) {
-      reconnect();
-    }
-    client.loop();
+    connectClientIfNeeded();
+    mqttClient.loop();
 
     char status[32];  // буфер для итогового сообщения
     snprintf(status, sizeof(status), "Привет_%d", count++);
-    client.publish(mqttTopicStatus, status);
+    mqttClient.publish(mqttTopicStatus, status);
     
     Serial.println(status);
   }

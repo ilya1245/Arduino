@@ -6,7 +6,7 @@
 #include <blink.h>
 
 extern WiFiMultiStable wiFiMultiStable;
-extern PubSubClient client;
+extern PubSubClient mqttClient;
 
 extern int activeWifiId;
 extern bool isConnected;
@@ -14,6 +14,6 @@ extern const char* mqttTopicStatus;
 // const char* mqtt_server;
 
 extern void connectToMQTT();
-extern void reconnect();
+extern void connectClientIfNeeded();
 
 

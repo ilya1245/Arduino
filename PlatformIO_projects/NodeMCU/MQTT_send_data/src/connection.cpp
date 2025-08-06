@@ -4,7 +4,7 @@
 
 
 WiFiClient espClient;
-PubSubClient client(espClient);
+PubSubClient mqttClient(espClient);
 
 std::pair <char*, char*> wifi_prim("CoolWave", "zlgk8e-1"); 
 std::pair <char*, char*> wifi_sec_1("Redmi_4", "cat_7032");
@@ -21,12 +21,13 @@ bool isConnected = false;
 
 
 
-void reconnect() {
-  Serial.println("reconnect()");
-  while (!client.connected()) {
-    client.connect("ESP01Client");
+void connectClientIfNeeded() {
+  // Serial.println("reconnect()");
+  while (!mqttClient.connected()) {
+    Serial.println("connectClientIfNeeded() - reconnect");
+    mqttClient.connect(MQTT_CLIENT_ID);
   }
-  Serial.println("reconnect() - Done");
+  // Serial.println("reconnect() - Done");
 }
 
 void connectToMQTT() { 
@@ -37,7 +38,7 @@ void connectToMQTT() {
   activeWifiId = wiFiMultiStable.getActiveWifiId();
   printf("\nFeeder: activeWifiId: %d", activeWifiId);
   if(activeWifiId >= 0) {
-    reconnect();
+    connectClientIfNeeded();
     isConnected = true;
     setBlinkParameters(blinkerWifiOk, activeWifiId+1);
   }
