@@ -9,11 +9,10 @@ extern WiFiMultiStable wiFiMultiStable;
 extern PubSubClient mqttClient;
 
 extern int activeWifiId;
-extern bool isConnected;
 extern const char* mqttTopicSwitcher;
-// const char* mqtt_server;
 
 extern void connectToMQTT();
 extern void connectClientIfNeeded();
+extern void callback(char* topic, byte* payload, unsigned int length);
 
 

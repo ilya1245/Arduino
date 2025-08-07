@@ -12,49 +12,41 @@ std::pair<char*, char*> my_wifis[] = {wifi_prim, wifi_sec_1, wifi_sec_2};
 WiFiMultiStable wiFiMultiStable(my_wifis, sizeof(my_wifis)/sizeof(my_wifis[0]), &Serial, SERIAL_SPEED);
 int activeWifiId = -1;
 
-
-const char* mqttTopicSwitcher = "esp/led";
-
-bool isConnected = false;
-
 void callback(char* topic, byte* payload, unsigned int length) {
   payload[length] = '\0';  // превращаем в строку
   String message = String((char*)payload);
   
-  if (String(topic) == mqttTopicSwitcher) {
+  if (String(topic) == MQTT_LED_COMMAND_TOPIC) {
     if (message == "ON") {
       digitalWrite(LED_PIN, HIGH);  // активный LOW на ESP8266
+      mqttClient.publish(MQTT_LED_STATE_TOPIC, "ON");
     } else {
       digitalWrite(LED_PIN, LOW);
+      mqttClient.publish(MQTT_LED_STATE_TOPIC, "OFF");
     }
   }
 }
 
 void connectClientIfNeeded() {
-  // Serial.println("reconnect()");
   while (!mqttClient.connected()) {
     Serial.println("connectClientIfNeeded() - reconnect");
-    // mqttClient.connect(MQTT_CLIENT_ID);
     if (mqttClient.connect(MQTT_CLIENT_ID)) {
-      mqttClient.subscribe(mqttTopicSwitcher);
+      Serial.println("connectClientIfNeeded() - connected");
+      mqttClient.subscribe(MQTT_LED_COMMAND_TOPIC);
     } else {
       delay(5000);
     }
-
   }
-  // Serial.println("reconnect() - Done");
 }
 
 void connectToMQTT() { 
-  printf("\nconnectToWifi()"); 
+  printf("\nconnectToMQTT()"); 
   setBlinkParameters(blinkerWifiSearch, 1);
-  isConnected = false;
   wiFiMultiStable.connectToWifi();
   activeWifiId = wiFiMultiStable.getActiveWifiId();
-  printf("\nFeeder: activeWifiId: %d", activeWifiId);
+  printf("\nactiveWifiId: %d", activeWifiId);
   if(activeWifiId >= 0) {
     connectClientIfNeeded();
-    isConnected = true;
     setBlinkParameters(blinkerWifiOk, activeWifiId+1);
   }
 }
