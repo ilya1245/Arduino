@@ -6,7 +6,7 @@
 
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(SERIAL_SPEED);
   EEPROM.begin(EEPROM_SIZE);
   pinMode(WIFI_LED_PIN, OUTPUT);
   digitalWrite(WIFI_LED_PIN, HIGH);

@@ -1,6 +1,6 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
-#include <LibPrintf.h>
+// #include <LibPrintf.h>
 // #include <WiFiMultiStable.h>
 #include <common.h>
 #include <blink.h>

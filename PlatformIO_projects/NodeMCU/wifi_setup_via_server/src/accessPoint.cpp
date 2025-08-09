@@ -31,6 +31,8 @@ void startAPMode() {
   Serial.print("AP IP address: ");
   Serial.println(WiFi.softAPIP());
 
+  scanNetworks();
+
   server.on("/", HTTP_GET, []() {
     String html = "<html><body><h1>WiFi Setup</h1>"
                   "<form action='/save' method='POST'>"
