@@ -35,12 +35,12 @@ void loop() {
     // Мы в режиме точки доступа — обрабатываем запросы
     apServer.handleClient();
   } else {
-    if (timer_5s.isReady()) {
+    if (timer_10s.isReady()) {
       printf("\nWiFi.status() is %d\n", WiFi.status());
       showWifiStatus();
       connectClientIfNeeded();
-      mqttClient.loop();
       processSensorData();
+      mqttClient.loop();      
     }
     blink();
   }  
