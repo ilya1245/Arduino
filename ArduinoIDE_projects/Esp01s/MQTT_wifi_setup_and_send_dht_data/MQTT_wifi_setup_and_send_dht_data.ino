@@ -17,6 +17,8 @@ void setup() {
   // blinkerWifiDisconnected.setInvertBlinking(true);
 
   mqttClient.setServer(MQTT_SERVER, MQTT_PORT);
+  mqttClient.setCallback(callback);
+
 
   loadCredentials();
 
@@ -45,3 +47,4 @@ void loop() {
     blink();
   }  
 }
+

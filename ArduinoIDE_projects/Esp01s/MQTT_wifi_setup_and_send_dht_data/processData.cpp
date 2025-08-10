@@ -5,10 +5,14 @@ DHT dht(DHTPIN, DHTTYPE);
 
 void processSensorData() {
   float h = dht.readHumidity();
-  float t = dht.readTemperature();
+  float t = dht.readTemperature() + temperatureCorrection;
+  // float t = dht.readTemperature();
 
   // float h = 13.4f;
   // float t = 23.4f;
+  // t -= temperatureCorrection;
+
+  // printf("\nprocessSensorData() - %.1f\n", t);
 
   if (!isnan(h) && !isnan(t)) {
     char tempStr[8], humStr[8];

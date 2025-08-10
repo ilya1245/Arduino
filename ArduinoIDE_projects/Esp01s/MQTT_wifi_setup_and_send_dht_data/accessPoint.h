@@ -7,6 +7,3 @@ extern ESP8266WebServer apServer;
 extern bool apMode;
 
 extern void startAPMode();
-
-
-

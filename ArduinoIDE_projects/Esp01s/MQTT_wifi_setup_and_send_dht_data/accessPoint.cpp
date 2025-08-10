@@ -3,7 +3,6 @@
 #include "blink.h"
 #include "store.h"
 
-
 ESP8266WebServer apServer(80);
 String wifiListHTML;
 bool apMode = false;

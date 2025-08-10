@@ -6,3 +6,4 @@ String ssidStored;
 String passStored;
 
 boolean isPingOk = false;
+float temperatureCorrection = 0.0f;

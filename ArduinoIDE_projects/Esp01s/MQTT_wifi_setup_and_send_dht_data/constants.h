@@ -3,9 +3,10 @@
 
 #define MQTT_SERVER "imiflig.site" // IP твоего брокера
 #define MQTT_PORT 1883
-#define MQTT_CLIENT_ID "NodeMCU_1"
+#define MQTT_CLIENT_ID "esp01s_1"
 #define MQTT_TEMPERATURE_TOPIC "esp01s_meteo_1/dht11/temperature"
 #define MQTT_HUMIDITY_TOPIC "esp01s_meteo_1/dht11/humidity"
+#define MQTT_TEMPERATURE_CORRECTION_COMMAND_TOPIC "esp01s/temperature/correction/set"
 
 // #define LED_PIN D2
 #define DHTPIN 2
