@@ -44,7 +44,6 @@ void setup(uint16_t period, uint16_t onMls, uint16_t offMls) {
   if (!isOn) return;
   disableAllBlinkers();
   isBlinkMode = true;
-  if (!isOn) return;
   for (int i = 0; i < NUMBER_OF_LETTERS; i++) {
     blinkers[i].setPeriod(period);
     blinkers[i].setOnTime(onMls);
@@ -513,7 +512,7 @@ void selectAction(byte irCommand) {
   }
 }
 
-void selectMode(int mode) {
+void processMode(int mode) {
   if (isOn) {
     switch (mode) {
       case 0: // key 1
@@ -553,52 +552,52 @@ void selectMode(int mode) {
         nextActionRange == 0 ? waveLeftToRight() : flashBackward();
         break;
 
-      case 9: // setup
-        Serial.println("key setup");
-        setup(timeInterval * 8, 50, timeInterval);
-        break;
-      case 18: // key left Up
-        Serial.println("key left Up");
-        tunePwmHighValue(pwmStepValue);
-        break;
-      case 21: // key left Down
-        Serial.println("key left Down");
-        tunePwmHighValue(-pwmStepValue);
-        break;
-      case 16: // key right Up
-        Serial.println("key right Up");
-        tunePwmLowValue(pwmStepValue);
-        break;
-      case 19: // key right Down
-        Serial.println("key right Down");
-        tunePwmLowValue(-pwmStepValue);
-        break;
-      case 11: // key Left
-        Serial.println("key Left");
-        tuneTimeInterval(-timeStep);
-        break;
-      case 13: // key Right
-        Serial.println("key Right");
-        tuneTimeInterval(timeStep);
-        break;
-      case 4: // key Record
-        Serial.println("key Record");
-        writeSettings();
-        break;
-      case 7: // key Reset
-        Serial.println("key Reset");
-        writeDefaultSettings();
-        break;
-      case 15: // key Next Action Range
-        Serial.println("key Next Action Range");
-        nextActionRange = 1;
-        printf("Action range = %d\n", nextActionRange);
-        break;
-      case 10: // key Previous Action Range
-        Serial.println("key Previous Action Range");
-        nextActionRange = 0;
-        printf("Action range = %d\n", nextActionRange);
-        break;
+      // case 9: // setup
+      //   Serial.println("key setup");
+      //   setup(timeInterval * 8, 50, timeInterval);
+      //   break;
+      // case 18: // key left Up
+      //   Serial.println("key left Up");
+      //   tunePwmHighValue(pwmStepValue);
+      //   break;
+      // case 21: // key left Down
+      //   Serial.println("key left Down");
+      //   tunePwmHighValue(-pwmStepValue);
+      //   break;
+      // case 16: // key right Up
+      //   Serial.println("key right Up");
+      //   tunePwmLowValue(pwmStepValue);
+      //   break;
+      // case 19: // key right Down
+      //   Serial.println("key right Down");
+      //   tunePwmLowValue(-pwmStepValue);
+      //   break;
+      // case 11: // key Left
+      //   Serial.println("key Left");
+      //   tuneTimeInterval(-timeStep);
+      //   break;
+      // case 13: // key Right
+      //   Serial.println("key Right");
+      //   tuneTimeInterval(timeStep);
+      //   break;
+      // case 4: // key Record
+      //   Serial.println("key Record");
+      //   writeSettings();
+      //   break;
+      // case 7: // key Reset
+      //   Serial.println("key Reset");
+      //   writeDefaultSettings();
+      //   break;
+      // case 15: // key Next Action Range
+      //   Serial.println("key Next Action Range");
+      //   nextActionRange = 1;
+      //   printf("Action range = %d\n", nextActionRange);
+      //   break;
+      // case 10: // key Previous Action Range
+      //   Serial.println("key Previous Action Range");
+      //   nextActionRange = 0;
+      //   printf("Action range = %d\n", nextActionRange);
+      //   break;
     }
   }
 }

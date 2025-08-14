@@ -6,7 +6,7 @@
 
 #include "common.h"
 #include "blink.h"
-#include "ir.h"
+// #include "ir.h"
 #include "store.h"
 #include "action.h"
 #include "bt.h"
@@ -16,8 +16,8 @@ void setup() {
   SerialBT.begin("Two_hearts");
   Serial.println("Starting...");
 
-  pinMode(RECV_LED_PIN, OUTPUT);
-  irrecv.enableIRIn();  
+  // pinMode(RECV_LED_PIN, OUTPUT);
+  // irrecv.enableIRIn();  
 
   EEPROM.begin(512);
   readSettings();
@@ -32,7 +32,9 @@ void setup() {
   initBlinkers();
   // delay(7000);
   if (isOn) {
-    selectAction(ledModeIrCommand);
+    // selectAction(ledModeIrCommand);
+    processMode(mode);
+
   }  
 }
 

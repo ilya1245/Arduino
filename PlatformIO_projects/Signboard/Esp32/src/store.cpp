@@ -2,6 +2,7 @@
 #include "common.h"
 #include "tune.h"
 #include "action.h"
+#include "bt.h"
 
 int isOnAddress = 0;
 int ledModeIrCommandAddress = 2;
@@ -17,11 +18,8 @@ void writeSettings() {
   // if (isLedMode) {}
   EEPROM.write(isOnAddress, byte(isOn));
   printf("\nwrite isOn = %d", byte(isOn));  
-  printf("\nwrite ledModeIrCommand = %d", ledModeIrCommand);
-  if (ledModeIrCommand > 0) {
-    EEPROM.write(ledModeIrCommandAddress, byte(ledModeIrCommand));
-    printf("\nwrite ledModeIrCommand = %d", ledModeIrCommand);
-  } 
+  printf("\nwrite mode = %d", mode);
+  EEPROM.write(ledModeIrCommandAddress, byte(mode)); 
   EEPROM.put(timeIntervalAddress, timeInterval);
   printf("\nwrite timeInterval = %d", timeInterval);
   EEPROM.put(pwmHighValueAddress, pwmHighValue);
@@ -37,8 +35,8 @@ void writeSettings() {
 
 void writeDefaultSettings() {
   EEPROM.write(isOnAddress, 0);
-  printf("\nwrite isOn = %d", 0);  
-  EEPROM.write(ledModeIrCommandAddress, 0);
+  printf("\nwrite isOn = %d", 0);
+  EEPROM.write(mode, 0);
   printf("\nwrite ledModeIrCommand = %d", 0);
   EEPROM.put(timeIntervalAddress, 500);
   printf("\nwrite timeInterval = %d", 500);
@@ -56,7 +54,7 @@ void writeDefaultSettings() {
 void readSettings() {
   isOn = boolean(EEPROM.read(isOnAddress));
   printf("\nread isOn = %d", isOn);
-  ledModeIrCommand = EEPROM.read(ledModeIrCommandAddress);  
+  mode = EEPROM.read(ledModeIrCommandAddress);  
   printf("\nread ledModeIrCommand = %d", ledModeIrCommand);
   EEPROM.get(timeIntervalAddress, timeInterval);
   printf("\nread timeInterval = %d", timeInterval);

@@ -3,7 +3,7 @@
 
 BluetoothSerial SerialBT;
 
-int mode = 1;
+int mode = 0;
 
 // Разбор команд
 void processBtCommand(String cmd) {
@@ -12,14 +12,19 @@ void processBtCommand(String cmd) {
   if (cmd.startsWith("MODE:")) {
     mode = cmd.substring(5).toInt();
     Serial.printf("Выбран режим: %d\n", mode);
+    processMode(mode);
   } 
   else if (cmd.startsWith("UPPER:")) {
     pwmHighValue = cmd.substring(6).toInt();
-    Serial.printf("Верхняя яркость: %d%%\n", pwmHighValue);
+    Serial.printf("Верхняя яркость: %d%%\n", pwmHighValue);    
   } 
   else if (cmd.startsWith("LOWER:")) {
     pwmLowValue = cmd.substring(6).toInt();
     Serial.printf("Нижняя яркость: %d%%\n", pwmLowValue);
+  } 
+  else if (cmd.startsWith("INTERVAL:")) {
+    timeInterval = cmd.substring(9).toInt() * 10;
+    Serial.printf("Интервал мерцания: %d%%\n", timeInterval);
   } 
   else if (cmd == "ON") {
     isOn = true;
@@ -29,13 +34,21 @@ void processBtCommand(String cmd) {
     isOn = false;
     Serial.println("Выключено");
   }
+  else if (cmd == "Reset") {
+    Serial.println("Reset");
+    writeDefaultSettings();
+  } 
+  else if (cmd == "Save") {
+    Serial.println("Save");
+    writeSettings();
+  }
 }
 
-void processMode(int mode) {
+// void processMode(int mode) {
 
-}
+// }
 
-void processBT() {
+void processBt() {
   // Читаем команды с телефона
   if (SerialBT.available()) {
     String cmd = SerialBT.readStringUntil('\n');
