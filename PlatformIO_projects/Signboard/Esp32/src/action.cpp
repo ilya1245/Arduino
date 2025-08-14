@@ -375,11 +375,7 @@ void flashRandom() {
 }
 
 void flashRandom_2() {
-<<<<<<< HEAD
   Serial.println("flashRandom_2 - start");
-=======
-  Serial.println("flashRandom - start");
->>>>>>> esp32_test_ir
   if (!isOn) return;
   disableAllBlinkers();
   isSwitchMode = false;
@@ -395,11 +391,7 @@ void flashRandom_2() {
     turnPinsLow();
     if (isSwitchMode) return;  
   }
-<<<<<<< HEAD
   Serial.println("flashRandom_2 - end");
-=======
-  Serial.println("flashRandom - end");
->>>>>>> esp32_test_ir
 }
 
 void selectAction(byte irCommand) {
@@ -473,6 +465,96 @@ void selectAction(byte irCommand) {
       case 9: // setup
         Serial.println("key setup");
 
+        setup(timeInterval * 8, 50, timeInterval);
+        break;
+      case 18: // key left Up
+        Serial.println("key left Up");
+        tunePwmHighValue(pwmStepValue);
+        break;
+      case 21: // key left Down
+        Serial.println("key left Down");
+        tunePwmHighValue(-pwmStepValue);
+        break;
+      case 16: // key right Up
+        Serial.println("key right Up");
+        tunePwmLowValue(pwmStepValue);
+        break;
+      case 19: // key right Down
+        Serial.println("key right Down");
+        tunePwmLowValue(-pwmStepValue);
+        break;
+      case 11: // key Left
+        Serial.println("key Left");
+        tuneTimeInterval(-timeStep);
+        break;
+      case 13: // key Right
+        Serial.println("key Right");
+        tuneTimeInterval(timeStep);
+        break;
+      case 4: // key Record
+        Serial.println("key Record");
+        writeSettings();
+        break;
+      case 7: // key Reset
+        Serial.println("key Reset");
+        writeDefaultSettings();
+        break;
+      case 15: // key Next Action Range
+        Serial.println("key Next Action Range");
+        nextActionRange = 1;
+        printf("Action range = %d\n", nextActionRange);
+        break;
+      case 10: // key Previous Action Range
+        Serial.println("key Previous Action Range");
+        nextActionRange = 0;
+        printf("Action range = %d\n", nextActionRange);
+        break;
+    }
+  }
+}
+
+void selectMode(int mode) {
+  if (isOn) {
+    switch (mode) {
+      case 0: // key 1
+        Serial.println("key 1");
+        isSwitchMode = true;
+        // ledModeIrCommand = irCommand;
+        nextActionRange == 0 ? blinkAll(timeInterval * 2, timeInterval * 1.6) : pinLeftToRight();
+        break;
+      case 1: // key 2
+        Serial.println("key 2");
+        isSwitchMode = true;
+        // ledModeIrCommand = irCommand;
+        nextActionRange == 0 ? blinkAll(timeInterval * 2, timeInterval) : pinRightToLeft();
+        break;
+      case 2: // key 3
+        Serial.println("key 3");
+        isSwitchMode = true;
+        // ledModeIrCommand = irCommand;
+        nextActionRange == 0 ? blinkAll(timeInterval * 2, timeFlash) : pinBackward();
+        break;
+      case 3: // key A
+        Serial.println("key A");
+        isSwitchMode = true;
+        // ledModeIrCommand = irCommand;
+        nextActionRange == 0 ? blinkAll(timeInterval * 2, timeFlash, 100, 2) : flashLeftToRight();
+        break;
+      case 4: // key B
+        Serial.println("key B");
+        isSwitchMode = true;
+        // ledModeIrCommand = irCommand;
+        nextActionRange == 0 ? waveAll() : flashRightToLeft();
+        break;
+      case 5: // key C
+        Serial.println("key 6");
+        isSwitchMode = true;
+        // ledModeIrCommand = irCommand;
+        nextActionRange == 0 ? waveLeftToRight() : flashBackward();
+        break;
+
+      case 9: // setup
+        Serial.println("key setup");
         setup(timeInterval * 8, 50, timeInterval);
         break;
       case 18: // key left Up

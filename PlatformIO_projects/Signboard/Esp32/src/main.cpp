@@ -9,9 +9,11 @@
 #include "ir.h"
 #include "store.h"
 #include "action.h"
+#include "bt.h"
 
 void setup() {
   Serial.begin(SERIAL_SPEED);
+  SerialBT.begin("Two_hearts");
   Serial.println("Starting...");
 
   pinMode(RECV_LED_PIN, OUTPUT);
@@ -35,6 +37,7 @@ void setup() {
 }
 
 void loop() {
-  processIr();
+  // processIr();
+  processBt();
   if (isBlinkMode) blink();
 }
