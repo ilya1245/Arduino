@@ -9,7 +9,19 @@ int mode = 0;
 void processBtCommand(String cmd) {
   Serial.printf("cmd: %s\n", cmd);
   cmd.trim();  
-  if (cmd.startsWith("MODE:")) {
+
+  if (cmd == "ON") {
+    isOn = true;
+    Serial.println("Включено");
+    onOff(true);
+  } 
+  else if (cmd == "OFF") {
+    isOn = false;
+    Serial.println("Выключено");
+    onOff(false);
+    // return();
+  }
+  else if (cmd.startsWith("MODE:")) {
     mode = cmd.substring(5).toInt();
     Serial.printf("Выбран режим: %d\n", mode);
     processMode(mode);
@@ -25,15 +37,7 @@ void processBtCommand(String cmd) {
   else if (cmd.startsWith("INTERVAL:")) {
     timeInterval = cmd.substring(9).toInt() * 10;
     Serial.printf("Интервал мерцания: %d%%\n", timeInterval);
-  } 
-  else if (cmd == "ON") {
-    isOn = true;
-    Serial.println("Включено");
-  } 
-  else if (cmd == "OFF") {
-    isOn = false;
-    Serial.println("Выключено");
-  }
+  }   
   else if (cmd == "Reset") {
     Serial.println("Reset");
     writeDefaultSettings();

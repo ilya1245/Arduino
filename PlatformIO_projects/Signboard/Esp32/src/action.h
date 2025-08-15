@@ -3,7 +3,7 @@
 
 extern byte nextActionRange;
 
-extern void onOff();
+extern void onOff(bool m);
 extern void blinkAll(uint16_t period, uint16_t onMls, uint16_t offMls, byte numOfBlinks);
 extern void blinkAll(uint16_t period, uint16_t onMls);
 extern void setup(uint16_t period, uint16_t onMls, uint16_t offMls);
