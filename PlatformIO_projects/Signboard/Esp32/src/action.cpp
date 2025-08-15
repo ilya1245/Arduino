@@ -9,7 +9,8 @@ void onOff(bool m) {
     Serial.println("onOff - On");
     processMode(mode);
   } else {
-    Serial.println("onOff - Off");      
+    Serial.println("onOff - Off");  
+    isSwitchMode = true;    
     turnPinsOff();
   }
 }
@@ -83,37 +84,32 @@ void tukTuk() {
 }
 
 void processMode(int mode) {
-  turnPinsOff();
+  turnPinsOff();  
   if (isOn) {
+    isSwitchMode = true;
     switch (mode) {
       case 0: // key 1
         Serial.println("mode 1");
-        isSwitchMode = true;
         blinkAll(timeInterval * 2, timeInterval * 1.6);
         break;
       case 1: // key 2
         Serial.println("mode 2");
-        isSwitchMode = true;
         blinkAll(timeInterval * 2, timeInterval);
         break;
       case 2: // key 3
         Serial.println("mode 3");
-        isSwitchMode = true;
         blinkAll(timeInterval * 2, timeFlash);
         break;
       case 3: // key A
         Serial.println("mode A");
-        isSwitchMode = true;
         blinkAll(timeInterval * 2, timeFlash, 100, 2);
         break;
       case 4: // key B
         Serial.println("mode B");
-        isSwitchMode = true;
         waveAll();
         break;
       case 5: // key C
         Serial.println("mode C");
-        isSwitchMode = true;
         tukTuk();
         break;
     }
