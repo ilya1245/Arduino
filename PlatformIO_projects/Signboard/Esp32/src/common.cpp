@@ -5,6 +5,12 @@
 // std::map<int, uint8_t> ledPins = { {9, 13}, {8, 15}, {7, 4}, {6, 16}, {5, 17}, {4, 5}, {3, 18}, {2, 23}, {1, 19}, {0, 22} };
 std::map<int, uint8_t> ledPins = { {0, 12}, {1, 14} };
 
+byte pwmMaxValue = 255;
+byte pwmMinValue = 0;
+byte pwmStepValue = 5;
+int pwmHighValue = 100;
+int pwmLowValue = 5;
+
 int timeInterval = 500; // switch interval in milis
 int timeStep = 100; // time tuning step
 byte timeFlash = 50; // Flash time

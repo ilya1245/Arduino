@@ -1,5 +1,4 @@
 #include <Arduino.h>
-// #include <LibPrintf.h>
 #include <GyverTimer.h>
 #include <LedBlink.h>
 #include <stdio.h>

@@ -8,11 +8,17 @@
 #define byte uint8_t
 
 #define SERIAL_SPEED 115200
-#define NUMBER_OF_LETTERS 10
+#define NUMBER_OF_LETTERS 2
 
 #define vsnprintf _snprintf
 
 extern std::map<int, uint8_t> ledPins;
+
+extern byte pwmMaxValue;
+extern byte pwmMinValue;
+extern byte pwmStepValue;
+extern int pwmHighValue;
+extern int pwmLowValue;
 
 extern int timeInterval; // switch interval in milis
 extern int timeStep; // time tuning step
