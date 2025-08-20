@@ -2,7 +2,14 @@
 
 // std::map<int, uint8_t> ledPins = { {0, 15}, {1, 2}, {2, 4}, {3, 16}, {4, 17}, {5, 5}, {6, 18}, {7, 19}, {8, 21}, {9, 3} };
 // std::map<int, uint8_t> ledPins = { {0, 13}, {1, 15}, {2, 4}, {3, 16}, {4, 17}, {5, 5}, {6, 18}, {7, 23}, {8, 19}, {9, 22} };
-std::map<int, uint8_t> ledPins = { {9, 13}, {8, 15}, {7, 4}, {6, 16}, {5, 17}, {4, 5}, {3, 18}, {2, 23}, {1, 19}, {0, 22} };
+// std::map<int, uint8_t> ledPins = { {9, 13}, {8, 15}, {7, 4}, {6, 16}, {5, 17}, {4, 5}, {3, 18}, {2, 23}, {1, 19}, {0, 22} };
+std::map<int, uint8_t> ledPins = { {0, 12}, {1, 14} };
+
+byte pwmMaxValue = 255;
+byte pwmMinValue = 0;
+byte pwmStepValue = 5;
+int pwmHighValue = 100;
+int pwmLowValue = 5;
 
 int timeInterval = 500; // switch interval in milis
 int timeStep = 100; // time tuning step
@@ -15,7 +22,6 @@ boolean isPrintKeyCode = true;
 boolean isBlinkMode = false;
 boolean isOn = false;
 boolean isSwitchMode = false;
-byte ledModeIrCommand = 0;
 
 void smartDelay(long pause, int delayTimeStep = 50) {
   for (int i = 0; i < pause / delayTimeStep; i++) {

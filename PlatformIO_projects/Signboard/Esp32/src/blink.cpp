@@ -1,5 +1,4 @@
 #include "blink.h"
-#include "tune.h"
 
 Blinker blinkers[NUMBER_OF_LETTERS];
 
@@ -29,6 +28,7 @@ void turnPinsLow() {
 }
 
 void turnPinsOff() {
+  disableAllBlinkers();
   for (int i = NUMBER_OF_LETTERS - 1; i >= 0; i--) {
     analogWrite(ledPins[i], 0);
   }

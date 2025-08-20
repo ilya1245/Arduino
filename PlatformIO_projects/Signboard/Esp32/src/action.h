@@ -1,9 +1,12 @@
-
 #include "common.h"
+#include "blink.h"
+#include "store.h"
+#include "common.h"
+#include "bt.h"
 
 extern byte nextActionRange;
 
-extern void onOff();
+extern void onOff(bool m);
 extern void blinkAll(uint16_t period, uint16_t onMls, uint16_t offMls, byte numOfBlinks);
 extern void blinkAll(uint16_t period, uint16_t onMls);
 extern void setup(uint16_t period, uint16_t onMls, uint16_t offMls);
@@ -14,3 +17,5 @@ extern void waveRightToLeft();
 extern void waveLeftToLeft();
 extern void waveRightToRight();
 extern void selectAction(byte irCommand);
+
+extern void processMode(int mode);

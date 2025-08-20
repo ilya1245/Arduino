@@ -1,3 +1,4 @@
+#include "common.h"
 #include "LedBlink.h"
 
 extern Blinker blinkers[];
