@@ -1,14 +1,4 @@
 #include "store.h"
-// #include "common.h"
-// #include "tune.h"
-
-// int isOnAddress = 0;
-// int ledModeIrCommandAddress = 2;
-// int timeIntervalAddress = 4;
-// int pwmHighValueAddress = 8;
-// int pwmLowValueAddress = 12;
-
-
 
 void writeSettings() {
   EEPROM.write(IS_ON_ADDRESS, byte(isOn));
@@ -18,7 +8,10 @@ void writeSettings() {
   printf("\nwrite waveStepDelay = %d", waveStepDelay);  
 
   EEPROM.put(WAVE_GRADIENT_ADDRESS, waveGradient);
-  printf("\nwrite waveGradient = %d\n", waveGradient); 
+  printf("\nwrite waveGradient = %d", waveGradient); 
+
+  EEPROM.put(BASE_COLOR_STEP_ADDRESS, baseColorStep);
+  printf("\nwrite baseColorStep = %d\n", baseColorStep); 
 }
 
 void writeDefaultSettings() {
@@ -32,18 +25,25 @@ void writeDefaultSettings() {
 
   waveGradient = (WAVE_GRADIENT_MAX + WAVE_GRADIENT_MIN) / 2;
   EEPROM.put(WAVE_GRADIENT_ADDRESS, waveGradient);
-  printf("\nwrite waveGradient = %d\n", waveGradient); 
+  printf("\nwrite waveGradient = %d", waveGradient);
+
+  baseColorStep = BASE_COLOR_STEP_INIT;
+  EEPROM.put(BASE_COLOR_STEP_ADDRESS, baseColorStep);
+  printf("\nwrite baseColorStep = %d\n", baseColorStep);
 }
 
 void readSettings() {
   isOn = boolean(EEPROM.read(IS_ON_ADDRESS));
   printf("\nread isOn = %d", isOn);
 
-  waveStepDelay = EEPROM.get(WAVE_STEP_DELAY_ADDRESS, waveStepDelay);  
+  EEPROM.get(WAVE_STEP_DELAY_ADDRESS, waveStepDelay);  
   printf("\nread waveStepDelay = %d", waveStepDelay);
 
   EEPROM.get(WAVE_GRADIENT_ADDRESS, waveGradient);
-  printf("\nread waveGradient = %d\n", waveGradient);
+  printf("\nread waveGradient = %d", waveGradient);
+
+  EEPROM.get(BASE_COLOR_STEP_ADDRESS, baseColorStep);
+  printf("\nread baseColorStep = %d\n", baseColorStep);
 
   ledStepTimer.setInterval(waveStepDelay);
 }

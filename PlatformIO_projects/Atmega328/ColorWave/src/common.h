@@ -1,16 +1,12 @@
 #include <Arduino.h>
-// #include <FastLED.h>
 #include <GyverTimer.h>
 #include <LibPrintf.h>
 // #include <LedBlink.h>
 #include "constants.h"
 
 extern boolean isOn;
+extern int keyCode;
 
-// extern GTimer ledStepTimer;
-// extern Blinker ledStandbyBlinker;
-// extern Blinker ledAlarmBlinker;
-// extern Blinker beepAlarmBlinker;
 
 
 

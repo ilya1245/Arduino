@@ -7,6 +7,8 @@ extern GTimer ledStepTimer;
 
 extern int waveStepDelay; 
 extern int waveGradient;
+extern int baseColorStep;
 
 extern void redWave();
 extern void rainbowWave();
+extern void rainbowWave_2();
