@@ -10,6 +10,8 @@ void setup() {
   pinMode(RECV_LED_PIN, OUTPUT);
   pinMode(RECV_PIN, INPUT);
 
+  readSettings();
+
   FastLED.addLeds<LED_TYPE, LED_ADDRESS_PIN, COLOR_ORDER>(leds, NUM_LEDS);
 }
 
@@ -17,7 +19,11 @@ void setup() {
 void loop() {
   processIr();
   if (ledStepTimer.isReady()) {
-    rainbowWave();
-  }
-  
+    if (isOn) {
+      rainbowWave();
+    } else {
+      FastLED.clear();    
+      FastLED.show();     
+    }    
+  }  
 }

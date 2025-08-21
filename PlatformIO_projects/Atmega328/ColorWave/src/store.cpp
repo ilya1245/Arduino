@@ -22,14 +22,17 @@ void writeSettings() {
 }
 
 void writeDefaultSettings() {
-  EEPROM.write(IS_ON_ADDRESS, 0);
-  printf("\nwrite isOn = %d", 0);
+  isOn = 1;
+  EEPROM.write(IS_ON_ADDRESS, isOn);
+  printf("\nwrite isOn = %d", isOn);
 
-  EEPROM.put(WAVE_STEP_DELAY_ADDRESS, (WAVE_STEP_DELAY_MAX + WAVE_STEP_DELAY_MIN) / 2);  
-  printf("\nwrite waveStepDelay = %d", 10);  
+  waveStepDelay = (WAVE_STEP_DELAY_MAX + WAVE_STEP_DELAY_MIN) / 2;
+  EEPROM.put(WAVE_STEP_DELAY_ADDRESS, waveStepDelay);  
+  printf("\nwrite waveStepDelay = %d", waveStepDelay);  
 
-  EEPROM.put(WAVE_GRADIENT_ADDRESS, 10);
-  printf("\nwrite waveGradient = %d\n", 10); 
+  waveGradient = (WAVE_GRADIENT_MAX + WAVE_GRADIENT_MIN) / 2;
+  EEPROM.put(WAVE_GRADIENT_ADDRESS, waveGradient);
+  printf("\nwrite waveGradient = %d\n", waveGradient); 
 }
 
 void readSettings() {
@@ -41,4 +44,6 @@ void readSettings() {
 
   EEPROM.get(WAVE_GRADIENT_ADDRESS, waveGradient);
   printf("\nread waveGradient = %d\n", waveGradient);
+
+  ledStepTimer.setInterval(waveStepDelay);
 }

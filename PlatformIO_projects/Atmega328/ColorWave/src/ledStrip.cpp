@@ -2,10 +2,10 @@
 #include "ir.h"
 
 CRGB leds[NUM_LEDS];
-GTimer ledStepTimer(MS, waveStepDelay);
+GTimer ledStepTimer(MS);
 
-int waveStepDelay = 100; 
-int waveGradient = 5;
+int waveStepDelay; 
+int waveGradient;
 
 
 void redWave() {
