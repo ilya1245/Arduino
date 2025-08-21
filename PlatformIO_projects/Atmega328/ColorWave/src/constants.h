@@ -6,14 +6,14 @@
 #define LED_TYPE WS2811
 #define COLOR_ORDER GRB
 #define LED_ADDRESS_PIN 6
-#define NUM_LEDS 100   // в твоей ленте 60 диодов = 20 адресных "пикселей" на метр
+#define NUM_LEDS 50   // в твоей ленте 60 диодов = 20 адресных "пикселей" на метр
 
 #define IS_ON_ADDRESS 0
 #define WAVE_STEP_DELAY_ADDRESS 1
 #define WAVE_GRADIENT_ADDRESS 3
 #define BASE_COLOR_STEP_ADDRESS 5
 
-#define WAVE_STEP_DELAY_MIN NUM_LEDS
+#define WAVE_STEP_DELAY_MIN NUM_LEDS*1.5
 #define WAVE_STEP_DELAY_MAX 500
 #define WAVE_STEP_DELAY_STEP 20
 
