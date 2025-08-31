@@ -8,8 +8,5 @@
 #define GROUND_1_PIN 7
 #define SERIAL_SPEED 9600
 
-// const byte allowedCards[][4] = {
-//   {0xA9, 0x00, 0xC5, 0xB9}, //A9 00 C5 B9
-//   {0x63, 0x03, 0x72, 0x0C}, //63 03 72 0C
-//   {0x1A, 0x2B, 0x3C, 0x4D}
-// };
+#define LOCK_POSITION 1 // left: 0 / right: 1
+#define LOCK_STATUS_ADDRESS 0

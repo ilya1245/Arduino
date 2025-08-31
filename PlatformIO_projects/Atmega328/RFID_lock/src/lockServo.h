@@ -1,6 +1,5 @@
 #include <Servo.h>
 #include "common.h"
-#include "blink.h"
 
 extern Servo lockServo;
 

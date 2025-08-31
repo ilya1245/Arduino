@@ -1,16 +1,33 @@
 #include "common.h"
 #include "rfid.h"
 #include "lockServo.h"
-#include "blink.h"
+#include "store.h"
+
+void keepLockPosition() {
+  boolean positionFlag = isLocked;
+  LOCK_POSITION == 0 ? positionFlag = isLocked : positionFlag = !isLocked;
+  if (positionFlag) {
+    lockServo.write(endPosition);
+    delay(500);
+    lockServo.write(endPosition - 5);
+  } else {
+    lockServo.write(startPosition);
+    delay(500);
+    lockServo.write(startPosition + 5);
+  }
+}
 
 void setup() {
   Serial.begin(SERIAL_SPEED);
-  disableAllBlinkers();
   SPI.begin();
   rfid.PCD_Init();
 
+  // writeDefaultSettings();
+  readSettings();
+  
   lockServo.attach(SERVO_PIN);
-  lockServo.write(startPosition);
+  keepLockPosition();
+  
 
   pinMode(RELAY_PIN, OUTPUT);
   pinMode(RED_LED_PIN, OUTPUT); 
@@ -23,11 +40,6 @@ void setup() {
   digitalWrite(GROUND_1_PIN, 0);
 
   Serial.println("Поднесите карту...");
-
-}
-
-void showStatus(bool isLocked) {
-
 }
 
 void loop() {
@@ -44,14 +56,8 @@ void loop() {
 
   if (isCardAllowed(rfid.uid.uidByte, rfid.uid.size)) {
     Serial.println("✅ Доступ разрешён");
-    // digitalWrite(GREEN_LED_PIN, 1);
-    if (isLocked) {
-      openLock();
-    } else {
-      closeLock();
-    }    
-    // delay(1000);
-    // digitalWrite(GREEN_LED_PIN, 0);
+    isLocked ? openLock() : closeLock();  
+    writeSettings();
   } else {
     Serial.println("❌ Доступ запрещён");
     digitalWrite(RED_LED_PIN, 1);
