@@ -9,9 +9,11 @@ boolean isLocked;
 void lockBeep(int nums) {
   for (int i = 0; i < nums; i++) {
     digitalWrite(BEEPER_PIN, 1);
+    // tone(BEEPER_PIN, 2000);
     digitalWrite(GREEN_LED_PIN, 1);
     delay(100); 
     digitalWrite(BEEPER_PIN, 0);
+    // noTone(BEEPER_PIN);
     digitalWrite(GREEN_LED_PIN, 0);
     delay(100);
   }

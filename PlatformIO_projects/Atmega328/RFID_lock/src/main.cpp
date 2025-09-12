@@ -28,13 +28,12 @@ void setup() {
   lockServo.attach(SERVO_PIN);
   keepLockPosition();
   
-
-  pinMode(RELAY_PIN, OUTPUT);
+  // pinMode(RELAY_PIN, OUTPUT);
   pinMode(RED_LED_PIN, OUTPUT); 
   pinMode(GREEN_LED_PIN, OUTPUT);
   pinMode(BEEPER_PIN, OUTPUT);
   pinMode(GROUND_1_PIN, OUTPUT);
-  digitalWrite(RELAY_PIN, 0);
+  // digitalWrite(RELAY_PIN, 0);
   digitalWrite(RED_LED_PIN, 0);
   digitalWrite(GREEN_LED_PIN, 0);
   digitalWrite(GROUND_1_PIN, 0);
@@ -61,10 +60,12 @@ void loop() {
   } else {
     Serial.println("❌ Доступ запрещён");
     digitalWrite(RED_LED_PIN, 1);
-    digitalWrite(BEEPER_PIN, 1);
+    // digitalWrite(BEEPER_PIN, 1);
+    tone(BEEPER_PIN, 2000);
     delay(1000);
     digitalWrite(RED_LED_PIN, 0);
-    digitalWrite(BEEPER_PIN, 0);
+    // digitalWrite(BEEPER_PIN, 0);
+    noTone(BEEPER_PIN);
   }
 
   rfid.PICC_HaltA();

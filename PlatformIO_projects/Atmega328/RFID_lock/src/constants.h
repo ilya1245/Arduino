@@ -1,6 +1,6 @@
 #define SS_PIN 10
 #define RST_PIN 9
-#define RELAY_PIN A0
+// #define RELAY_PIN A0
 #define RED_LED_PIN 2
 #define GREEN_LED_PIN 4
 #define SERVO_PIN 5
