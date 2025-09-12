@@ -11,7 +11,7 @@
 
 void setup() {
   Serial.begin(SERIAL_SPEED);
-  SerialBT.begin("Two_hearts");
+  SerialBT.begin("Technology_STEM");
   Serial.println("Starting...");
 
   EEPROM.begin(512);

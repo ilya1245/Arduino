@@ -6,7 +6,7 @@
 #define byte uint8_t
 
 #define SERIAL_SPEED 115200
-#define NUMBER_OF_LETTERS 2
+#define NUMBER_OF_LETTERS 1
 
 #define vsnprintf _snprintf
 

@@ -90,7 +90,8 @@ void processMode(int mode) {
     switch (mode) {
       case 0: // key 1
         Serial.println("mode 1");
-        blinkAll(timeInterval * 2, timeInterval * 1.6);
+        // blinkAll(timeInterval * 2, timeInterval * 1.6);
+        turnPinsHigh();
         break;
       case 1: // key 2
         Serial.println("mode 2");

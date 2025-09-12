@@ -27,6 +27,12 @@ void turnPinsLow() {
   }
 }
 
+void turnPinsHigh() {
+  for (int i = NUMBER_OF_LETTERS - 1; i >= 0; i--) {
+    analogWrite(ledPins[i], pwmHighValue);
+  }
+}
+
 void turnPinsOff() {
   disableAllBlinkers();
   for (int i = NUMBER_OF_LETTERS - 1; i >= 0; i--) {
