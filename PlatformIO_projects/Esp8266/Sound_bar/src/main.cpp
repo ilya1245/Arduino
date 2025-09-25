@@ -1,51 +1,47 @@
-#include <FastLED.h>
+#include "common.h"
+#include "ledStrip.h"
 
-#define LED_PIN     D2       // GPIO4
-#define NUM_LEDS    20
-#define LED_TYPE    WS2811
-#define COLOR_ORDER GRB
+float scale = 4.0;
+int currentLevel = 0;
+int micValue = 0;
 
-CRGB leds[NUM_LEDS];
 
-#define MIC_PIN     A0       // аналоговый вход ESP8266 (0–1V!)
-#define BRIGHTNESS  200
 
-// Задаём рабочий диапазон микрофона
-#define MIN_SOUND_LEVEL  300   // тихо
-#define MAX_SOUND_LEVEL  315   // громко
 
 void setup() {
   Serial.begin(115200);
-  FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+  FastLED.addLeds<LED_TYPE, LED_ADDRESS_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setBrightness(BRIGHTNESS);
+  slowBar();
+}
+
+void updateBarLevel() {
+  float sqrt_diff = 0;
+  if (micValue > MIN_SOUND_LEVEL) {
+    sqrt_diff = sqrt(micValue - MIN_SOUND_LEVEL) * scale;
+  }
+  Serial.printf("\nsqrt_diff = %f", sqrt_diff);
+  // Serial.println(sqrt_diff); 
+
+  // if (sqrt_diff > currentLevel) {
+    currentLevel = int(sqrt_diff);
+  // } 
+  // else {
+  //   currentLevel--;
+  // }
+  
+  currentLevel = constrain(currentLevel, 0, NUM_LEDS);
+
 }
 
 void loop() {
-  // 1. Чтение микрофона
-  int micValue = analogRead(MIC_PIN);    // 0..1023
-  Serial.println(micValue);
-
-  static int smoothValue = MIN_SOUND_LEVEL;
-  smoothValue = (smoothValue * 7 + micValue) / 8;  // простое сглаживание
-
-  // 2. Масштабируем из 700–800 в 0–NUM_LEDS
-  int level = map(smoothValue, MIN_SOUND_LEVEL, MAX_SOUND_LEVEL, 0, NUM_LEDS);
-
-  // защита от выхода за пределы
-  level = constrain(level, 0, NUM_LEDS);
-
-  // 3. Заполняем диоды
-  for (int i = 0; i < NUM_LEDS; i++) {
-    if (i < level) {
-      // hue: от зелёного (96) → жёлтый → красный (0)
-      uint8_t hue = map(i, 0, NUM_LEDS - 1, 200, 0);
-      leds[i] = CHSV(hue, 255, 255);
-    } else {
-      leds[i] = CRGB::Black;
-    }
+  if (barTimer.isReady()) {
+    Serial.printf("\nmicValue = %d", micValue);
+    updateBarLevel();
+    showBar(currentLevel);
+     micValue = 0;
+  } else {
+    micValue = micValue < analogRead(MIC_PIN) ? analogRead(MIC_PIN) : micValue;
   }
 
-  // 4. Отправляем в ленту
-  FastLED.show();
-  delay(20);
 }
