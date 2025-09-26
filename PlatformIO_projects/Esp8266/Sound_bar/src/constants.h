@@ -6,9 +6,11 @@
 #define COLOR_ORDER GRB
 
 #define MIC_PIN     A0     
-#define BRIGHTNESS  200
+#define BRIGHTNESS  255
 
 // Задаём рабочий диапазон микрофона
 #define MIN_SOUND_LEVEL  300   // тихо
 #define MAX_SOUND_LEVEL  320   // громко
 #define TIME_INTERVAL 50
+
+#define SOUND_SCALE 5.0
