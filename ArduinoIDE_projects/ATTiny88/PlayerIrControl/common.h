@@ -5,7 +5,6 @@
 
 extern SoftwareSerial mySerial; // Только TX, RX отключен
 
-extern GTimer keyDelayTimer;
 extern GTimer keyPressTimer;
 
 
